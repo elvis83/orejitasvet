@@ -1,6 +1,6 @@
 @extends('theme.backoffice.layouts.admin')
 
-@section('title', 'Orejitas Vet')
+@section('title', 'Roles del Sistema')
 
 @section('head')
 @endsection

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Panel de Control</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,17 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @if(auth()->user()->has_role(config('app.client_role')))
+                        <a 
+                            href="{{ route('frontoffice.user.profile') }}">
+                            Panel de Control Cliente
+                        </a>
+                    @else
+                        <a 
+                            href="{{ route('backoffice.admin.show') }}">
+                            Panel de Control Administrador
+                        </a>         
+                    @endif
                 </div>
             </div>
         </div>

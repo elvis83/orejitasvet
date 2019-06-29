@@ -21,9 +21,14 @@
             </li>
             <li class="divider"></li>
             <li>
-              <a href="#" class="grey-text text-darken-1">
-                <i class="material-icons">keyboard_tab</i> Salir</a>
-            </li>
+            <a class="grey-text text-darken-1" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+              <i class="material-icons">keyboard_tab</i> {{ __('Salir') }}</a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+          </li>
           </ul>
           <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav">Admistrador<i class="mdi-navigation-arrow-drop-down right"></i></a>
           <p class="user-roal">Administrador</p>

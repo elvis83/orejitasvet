@@ -13,8 +13,8 @@
         <style>
             html, body {
                 background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
+                color: #74DF00;
+                font-family: Times, "Times New Roman", serif;
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
@@ -63,17 +63,18 @@
             }
         </style>
     </head>
-    <body>
-        <div class="flex-center position-ref full-height">
+    <body background="{{ asset('images/fondo.jpg') }}" style="background-repeat: no-repeat; background-position: center center; text-decoration-line: #FFF;">
+        <div class="container">
+        <div class="flex-center position-ref full-height container">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Inicio</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Iniciar sesión</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">Registrarse</a>
                         @endif
                     @endauth
                 </div>
@@ -81,19 +82,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Orejitas Vet App
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    Orejitas Vet
                 </div>
             </div>
+        </div>
         </div>
     </body>
 </html>

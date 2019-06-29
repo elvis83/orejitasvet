@@ -85,11 +85,11 @@
 
 						<div class="row">
 						<div class="input-field col s12">
-							<input id="password" type="text" name="password">
-							<label for="password">Confirmar contraseña</label>
-							@if ($errors->has('password'))
+							<input id="password_confirmation" type="text" name="password_confirmation">
+							<label for="password_confirmation">Confirmar contraseña</label>
+							@if ($errors->has('password_confirmation'))
                                 <span class="invalid-feedback" role="alert">
-                                    <strong style="color: red;">{{ $errors->first('password') }}</strong>
+                                    <strong style="color: red;">{{ $errors->first('password_confirmation') }}</strong>
                                 </span>
                             @endif
 						</div>

@@ -21,7 +21,7 @@
 				<div class="col s12 m8">
 					<div class="card">
 					<div class="card-content">
-					<span class="card-title">Asignar Roles</span>
+					<span class="card-title">Asignar Permisos</span>
 					<div class="row">
 					<form class="col s12" method="post" action="{{ route('backoffice.user.permission_assignment', $user) }}">
 						
@@ -29,7 +29,7 @@
 
 						{{-- Aqui se va a mostrar los permisos --}}
 						@foreach($roles as $role)
-							<p>{{ $role->name }}</p>
+							<p><strong>{{ $role->name }}</strong></p>
 							@foreach($role->permissions as $permission)
 							<p>
 								<input type="checkbox" id="{{ $permission->id }}" name="permissions[]" value="{{ $permission->id }}" @if ($user->has_permission($permission->id)) checked @endif>

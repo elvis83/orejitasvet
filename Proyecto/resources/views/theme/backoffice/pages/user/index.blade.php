@@ -1,6 +1,6 @@
 @extends('theme.backoffice.layouts.admin')
 
-@section('title', 'Orejitas Vet')
+@section('title', 'Usuarios del Sistema')
 
 @section('head')
 @endsection
@@ -11,6 +11,7 @@
 
 @section('dropdown_settings')
 	<li><a href="{{ route('backoffice.user.create') }}" class="grey-text text-darken-2">Crear usuario</a></li>
+	<li><a href="{{ route('backoffice.user.import') }}" class="grey-text text-darken-2">Importar usuarios</a></li>
 @endsection
 
 @section('content')
@@ -36,9 +37,12 @@
 							@foreach($users as $user)
 								<tr>
 									<td><a href="{{ route('backoffice.user.show', $user) }}">{{ $user->name }}</a></td>
-									<td>{{ $user->dob }}</td>
+									<td>{{ $user->age() }}</td>
 									<td>{{  $user->email }}</td>
-									<td><a href="{{ route('backoffice.user.edit', $user) }}">EDITAR</a></td>
+									<td><a href="{{ route('backoffice.user.edit', $user) }}" title="Editar">
+											<i class="material-icons">border_color</i>
+										</a>
+									</td>
 								</tr>
 							@endforeach
 							</tbody>
