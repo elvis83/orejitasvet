@@ -1,4 +1,5 @@
 Proyecto Veterinaria Orejitas Vet
+---------------------------------
 
 Pasos previos antes de ejecutar proyecto:
 
@@ -15,3 +16,16 @@ Pasos previos antes de ejecutar proyecto:
 6. De ser todo sastifactorio debe salir el siguiente mensaje (Laravel development server started: <http://127.0.0.1:8000>)
 
 7. Por último abrir la url: http://127.0.0.1:8000
+
+Usuario para login
+------------------
+
+ADMINISTRADOR
+-------------
+Correo:       elvis@correo.com
+Contraseña:   12345678
+
+CLIENTE
+-------
+Correo:       luis@correo.com
+Contraseña:   12345678
