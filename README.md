@@ -17,15 +17,13 @@ Pasos previos antes de ejecutar proyecto:
 
 7. Por último abrir la url: http://127.0.0.1:8000
 
-Usuario para login
+Usuarios para login
 ------------------
 
 ADMINISTRADOR
--------------
 Correo:       elvis@correo.com
 Contraseña:   12345678
 
 CLIENTE
--------
 Correo:       luis@correo.com
 Contraseña:   12345678
