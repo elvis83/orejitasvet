@@ -2,8 +2,10 @@
 
 return [
 
-    'admin_role' => env('ADMIN_ROLE', 'admin'),
-    'patient_role' => env('PATIENT_ROLE', 'paciente'),
+    'admin_role' => env('ADMIN_ROLE', 'administrador'),
+    'client_role' => env('CLIENT_ROLE', 'cliente'),
+    'assistant_role' => env('ASSISTANT_ROLE', 'asistente'),
+    'doctor_role' => env('DOCTOR_ROLE', 'doctor'),
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +85,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +166,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        'Jenssegers\Date\DateServiceProvider',
 
         /*
          * Package Service Providers...
@@ -230,6 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
+        'Date' => Jenssegers\Date\Date::class,
 
     ],
 

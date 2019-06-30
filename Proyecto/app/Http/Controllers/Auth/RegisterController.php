@@ -69,8 +69,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         
-        $patient = config('app.patient_role');
-        $role = \App\Role::where('slug',$patient)->first();
+        $client = config('app.client_role');
+        $role = \App\Role::where('slug',$client)->first();
         $permissions = $role->permissions;
 
         $user->roles()->attach($role);

@@ -19,11 +19,16 @@
                             href="{{ route('frontoffice.user.profile') }}">
                             Panel de Control Cliente
                         </a>
+                    @elseif(auth()->user()->has_role(config('app.assistant_role')))
+                        <a 
+                            href="{{ route('backoffice.admin.show') }}">
+                            Panel de Control Asistente
+                        </a>
                     @else
                         <a 
                             href="{{ route('backoffice.admin.show') }}">
                             Panel de Control Administrador
-                        </a>         
+                        </a> 
                     @endif
                 </div>
             </div>

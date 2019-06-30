@@ -34,6 +34,10 @@
 			class="collection-item {{ active_class(route('frontoffice.user.edit', auth()->user())) }}">
 			Editar Perfil
 		</a>
-		<a href="#!" class="collection-item">Modificar Contraseña</a>
+		<a 
+			href="{{ route('frontoffice.user.edit_password') }}" 
+			class="collection-item {{ active_class(route('frontoffice.user.edit_password')) }}">
+			Modificar Contraseña
+		</a>
 	</div>
 </div>

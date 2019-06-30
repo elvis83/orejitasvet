@@ -10,4 +10,9 @@ class AdminController extends Controller
     {
     	return view('theme.backoffice.pages.admin.show');
     }
+
+    public function __construct()
+	{
+		$this->middleware('role:' . config('app.admin_role') . '-' . config('app.assistant_role'));
+	}
 }

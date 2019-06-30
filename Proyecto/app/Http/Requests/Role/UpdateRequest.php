@@ -13,7 +13,8 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $role = $this->route('role');
+        return $this->user()->can('update', $role);
     }
 
     /**
@@ -24,8 +25,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:roles,name,' . $this->route('role')->id . '|max:255',
-            'description' => 'required',
+            'name' => 'required|unique:roles,name,' . $this->route('role')->id . '|min:6|max:20|alpha',
+            'description' => 'required|min:2|max:100',
         ];
     }
 
@@ -34,7 +35,12 @@ class UpdateRequest extends FormRequest
         return [
             'name.required' => '* Campo requerido',
             'name.unique' => '* El nombre ya existe',
-            'description.required' => '* Campo requerido'
+            'name.min' => '* Mínimo 6 caracteres',
+            'name.max' => '* Máximo 20 caracteres',
+            'name.alpha' => '* Solo letras',
+            'description.required' => '* Campo requerido',
+            'description.min' => '* Mínimo 2 caracteres',
+            'description.max' => '* Máximo 100 caracteres'
         ];
     }
 }
