@@ -67,12 +67,12 @@ class User extends Authenticatable implements MustVerifyEmail
         alert()->success('Registro actualizado', 'Exito')->autoclose(2000);
     }
 
-    public function role_assignment($request)
+    public function role_assignment($request, array $roles = null)
     {
-        //$roles = (is_null($roles)) ? $request->roles : $roles;
-        $this->permission_mass_assignment($request->roles);       
-        $this->roles()->sync($request->roles);
-        $this->verify_permission_integrity($request->roles);
+        $roles = (is_null($roles)) ? $request->roles : $roles;
+        $this->permission_mass_assignment($roles);       
+        $this->roles()->sync($roles);
+        $this->verify_permission_integrity($roles);
         alert()->success('Registro almacenado', 'Exito')->autoclose(2000);
     }
 
