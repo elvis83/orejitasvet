@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-06-2019 a las 02:38:48
+-- Tiempo de generación: 30-06-2019 a las 20:06:53
 -- Versión del servidor: 10.3.15-MariaDB
 -- Versión de PHP: 7.3.6
 
@@ -27,7 +27,7 @@ USE `orejitasvet`;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `migrations`
+-- Estructura de tabla para la tabla `migrations` NO NECESARIA EN EL TRABAJO DE NUESTRO SISTEMA
 --
 
 CREATE TABLE `migrations` (
@@ -48,7 +48,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2019_06_11_030117_create_role_user_table', 1),
 (6, '2019_06_11_030155_create_permission_user_table', 1),
 (7, '2019_06_18_044106_create_res_tipodocumento_table', 2),
-(8, '2019_06_21_133148_add_dob_to_users_table', 3);
+(8, '2019_06_21_133148_add_dob_to_users_table', 3),
+(9, '2019_06_25_203846_drop_permissions_slug_unique', 4);
 
 -- --------------------------------------------------------
 
@@ -123,8 +124,29 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 'admin_1', 'admin-1', '123', 1, '2019-06-19 23:26:33', '2019-06-19 23:26:33'),
-(2, 'admin_2', 'admin-2', '123', 1, '2019-06-19 23:27:06', '2019-06-19 23:27:06');
+(1, 'index-role', 'index-role', 'Listar todos los roles del sistema', 1, '2019-06-26 02:02:05', '2019-06-26 02:02:05'),
+(2, 'create-role', 'create-role', 'Crear un nuevo rol', 1, '2019-06-26 02:02:47', '2019-06-26 02:02:47'),
+(3, 'view-role', 'view-role', 'Mostrar un rol', 1, '2019-06-26 02:03:10', '2019-06-26 02:03:10'),
+(4, 'update-role', 'update-role', 'Editar rol', 1, '2019-06-26 02:03:56', '2019-06-26 02:03:56'),
+(5, 'delete-role', 'delete-role', 'Eliminar rol', 1, '2019-06-26 02:04:26', '2019-06-26 02:04:26'),
+(6, 'index-permission', 'index-permission', 'index-permission', 1, '2019-06-26 02:38:37', '2019-06-26 02:38:37'),
+(7, 'create-permission', 'create-permission', 'create-permission', 1, '2019-06-26 02:40:08', '2019-06-26 02:40:08'),
+(8, 'view-permission', 'view-permission', 'view-permission', 1, '2019-06-26 02:40:39', '2019-06-26 02:40:39'),
+(9, 'update-permission', 'update-permission', 'update-permission', 1, '2019-06-26 02:42:22', '2019-06-26 02:42:22'),
+(10, 'delete-permission', 'delete-permission', 'delete-permission', 1, '2019-06-26 02:42:54', '2019-06-26 02:42:54'),
+(11, 'index-user', 'index-user', 'index-user', 1, '2019-06-25 05:00:00', '2019-06-25 05:00:00'),
+(12, 'create-user', 'create-user', 'create-user', 1, '2019-06-25 05:00:00', '2019-06-25 05:00:00'),
+(13, 'view-user', 'view-user', 'view-user', 1, '2019-06-25 05:00:00', '2019-06-25 05:00:00'),
+(14, 'update-user', 'update-user', 'update-user', 1, '2019-06-25 05:00:00', '2019-06-25 05:00:00'),
+(15, 'delete-user', 'delete-user', 'delete-user', 1, '2019-06-25 05:00:00', '2019-06-25 05:00:00'),
+(16, 'assign-role-user', 'assign-role-user', 'assign-role-user', 1, '2019-06-25 05:00:00', '2019-06-25 05:00:00'),
+(17, 'assign-permission-user', 'assign-permission-user', 'assign-permission-user', 1, '2019-06-25 05:00:00', '2019-06-25 05:00:00'),
+(18, 'import-user', 'import-user', 'import-user', 1, '2019-06-25 05:00:00', '2019-06-29 14:11:16'),
+(20, 'index-tipodocumento', 'index-tipodocumento', 'index-tipodocumento', 1, '2019-06-30 01:14:49', '2019-06-30 01:14:49'),
+(22, 'create-tipodocumento', 'create-tipodocumento', 'create-tipodocumento', 1, '2019-06-30 01:17:47', '2019-06-30 01:17:47'),
+(23, 'view-tipodocumento', 'view-tipodocumento', 'view-tipodocumento', 1, '2019-06-30 01:18:22', '2019-06-30 01:18:22'),
+(24, 'update-tipodocumento', 'update-tipodocumento', 'update-tipodocumento', 1, '2019-06-30 01:18:46', '2019-06-30 01:18:46'),
+(25, 'delete-tipodocumento', 'delete-tipodocumento', 'delete-tipodocumento', 1, '2019-06-30 01:19:57', '2019-06-30 01:19:57');
 
 -- --------------------------------------------------------
 
@@ -145,8 +167,29 @@ CREATE TABLE `permission_user` (
 --
 
 INSERT INTO `permission_user` (`id`, `permission_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2019-06-20 09:46:29', '2019-06-20 09:46:29'),
-(3, 2, 1, '2019-06-21 09:46:03', '2019-06-21 09:46:03');
+(1, 1, 17, '2019-06-26 02:05:59', '2019-06-26 02:05:59'),
+(2, 2, 17, '2019-06-26 02:05:59', '2019-06-26 02:05:59'),
+(3, 3, 17, '2019-06-26 02:05:59', '2019-06-26 02:05:59'),
+(4, 4, 17, '2019-06-26 02:05:59', '2019-06-26 02:05:59'),
+(5, 5, 17, '2019-06-26 02:05:59', '2019-06-26 02:05:59'),
+(20, 9, 17, '2019-06-29 14:18:35', '2019-06-29 14:18:35'),
+(24, 6, 17, '2019-06-29 14:21:19', '2019-06-29 14:21:19'),
+(25, 7, 17, '2019-06-29 14:21:49', '2019-06-29 14:21:49'),
+(26, 17, 17, '2019-06-29 14:21:50', '2019-06-29 14:21:50'),
+(27, 8, 17, '2019-06-29 14:40:03', '2019-06-29 14:40:03'),
+(28, 16, 17, '2019-06-29 14:40:03', '2019-06-29 14:40:03'),
+(29, 11, 17, '2019-06-29 14:40:21', '2019-06-29 14:40:21'),
+(30, 13, 17, '2019-06-29 14:40:21', '2019-06-29 14:40:21'),
+(31, 12, 17, '2019-06-29 15:42:44', '2019-06-29 15:42:44'),
+(32, 14, 17, '2019-06-29 15:42:44', '2019-06-29 15:42:44'),
+(33, 15, 17, '2019-06-29 15:42:44', '2019-06-29 15:42:44'),
+(38, 10, 17, '2019-06-29 17:46:47', '2019-06-29 17:46:47'),
+(39, 18, 17, '2019-06-29 17:46:47', '2019-06-29 17:46:47'),
+(40, 20, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
+(41, 22, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
+(42, 23, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
+(43, 24, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
+(44, 25, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52');
 
 -- --------------------------------------------------------
 
@@ -161,18 +204,6 @@ CREATE TABLE `res_citas` (
   `res_id` int(11) NOT NULL,
   `ser_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La cita será cuando ya se haya dado el día y la hora fijad, y se apersonen a la veterinaria a pasar consulta.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_clientes`
---
-
-CREATE TABLE `res_clientes` (
-  `clie_id` int(11) NOT NULL,
-  `clie_estado` enum('A','B') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'A' COMMENT 'Valores permitidos: (A) Activo y (B) Baja',
-  `per_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='En la tabla Cliente se registrarán los datos de quien será intermediario y dueño, quien se encargará de llevar a su mascota para recibir un servicio de la veterinaria.';
 
 -- --------------------------------------------------------
 
@@ -317,9 +348,10 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'ADMINISTRADOR', 'administrador', '123', '2019-06-19 23:26:03', '2019-06-20 03:34:47'),
-(3, 'Paciente', 'paciente', 'Paciente', '2019-06-21 09:59:11', '2019-06-21 09:59:11'),
-(4, 'Doctor', 'doctor', 'Doctor', '2019-06-21 09:59:37', '2019-06-21 09:59:37');
+(1, 'Administrador', 'administrador', 'Administrador', '2019-06-26 01:49:13', '2019-06-26 01:50:47'),
+(2, 'Asistente', 'asistente', 'Asistente', '2019-06-26 01:49:38', '2019-06-26 01:51:02'),
+(3, 'Doctor', 'doctor', 'Doctor', '2019-06-26 01:50:07', '2019-06-30 03:46:52'),
+(5, 'Cliente', 'cliente', 'Cliente', '2019-06-29 10:28:32', '2019-06-29 10:28:32');
 
 -- --------------------------------------------------------
 
@@ -340,9 +372,8 @@ CREATE TABLE `role_user` (
 --
 
 INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(4, 1, 1, '2019-06-21 09:21:06', '2019-06-21 09:21:06'),
-(5, 3, 2, '2019-06-21 10:02:37', '2019-06-21 10:02:37'),
-(6, 3, 3, '2019-06-21 10:10:45', '2019-06-21 10:10:45');
+(5, 1, 17, '2019-06-29 14:41:01', '2019-06-29 14:41:01'),
+(10, 5, 20, '2019-06-29 18:03:13', '2019-06-29 18:03:13');
 
 -- --------------------------------------------------------
 
@@ -601,9 +632,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `dob`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Elvis Bernardo', '1983-07-01', 'sivle1983@gmail.com', NULL, '$2y$10$Oi2uZheII6siFVstIuYvCOU4FblLDmn06TObzAmSUWh3JvZatdx.i', NULL, '2019-06-19 23:23:37', '2019-06-19 23:23:37'),
-(2, 'Jesus', '2001-05-16', 'jesus@hotmail.com', '2019-06-21 10:03:46', '$2y$10$hJ/QMvp/vfmp5qiU8q8SKuwGwgXJTyiayn6KaN1fW9qAZleAlUlgq', NULL, '2019-06-21 10:02:37', '2019-06-21 10:03:46'),
-(3, 'Homero', '0199-12-11', 'homero@hotmail.com', '2019-06-21 10:10:58', '$2y$10$TgfAu3ZDNL5qR6fzq7swZerNoZFLJRekjX0Jks.Kj0f3ybH3SyPwO', NULL, '2019-06-21 10:10:45', '2019-06-21 10:10:58');
+(17, 'Elvis', '1983-07-01', 'elvis@correo.com', NULL, '$2y$10$BB5JiVaLf4/9O5ANWdElUuIAq1oON/2uPWXlNFj6Tb7nony0bFrTe', NULL, '2019-06-26 01:47:00', '2019-06-26 01:47:00'),
+(20, 'Luis', '1988-04-26', 'luis@correo.com', NULL, '$2y$10$qjiUfUdbg4uPsoJNmgkmHOMvMjQaJryAmUxFB1EhY3PCDX92lw80y', NULL, '2019-06-29 18:03:13', '2019-06-30 03:08:19'),
+(21, 'Prueba', '2000-02-01', 'prueba@correo.com', NULL, '$2y$10$GKG9vrX2rIVUuu1.BJ2tTOhOPFr961G3SLpUZnPPRxDXGrexFWzcG', NULL, '2019-06-30 23:01:41', '2019-06-30 23:01:42');
 
 --
 -- Índices para tablas volcadas
@@ -650,7 +681,6 @@ ALTER TABLE `password_resets`
 ALTER TABLE `permissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `permissions_name_unique` (`name`),
-  ADD UNIQUE KEY `permissions_slug_unique` (`slug`),
   ADD KEY `permissions_role_id_foreign` (`role_id`);
 
 --
@@ -669,13 +699,6 @@ ALTER TABLE `res_citas`
   ADD UNIQUE KEY `IU_CITA` (`cit_fecha`,`res_id`),
   ADD KEY `RES_CITA` (`res_id`),
   ADD KEY `SER_CITA` (`ser_id`);
-
---
--- Indices de la tabla `res_clientes`
---
-ALTER TABLE `res_clientes`
-  ADD PRIMARY KEY (`clie_id`),
-  ADD KEY `PERS_CLIE` (`per_id`);
 
 --
 -- Indices de la tabla `res_especialidades`
@@ -886,7 +909,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pag_comprobantes`
@@ -904,25 +927,19 @@ ALTER TABLE `pag_tipo_pagos`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `permission_user`
 --
 ALTER TABLE `permission_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `res_citas`
 --
 ALTER TABLE `res_citas`
   MODIFY `cit_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `res_clientes`
---
-ALTER TABLE `res_clientes`
-  MODIFY `clie_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `res_especialidades`
@@ -970,13 +987,13 @@ ALTER TABLE `res_usuarios`
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ser_control_vacunas`
@@ -1072,7 +1089,7 @@ ALTER TABLE `ser_tipo_vacunas`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas
@@ -1111,12 +1128,6 @@ ALTER TABLE `permission_user`
 ALTER TABLE `res_citas`
   ADD CONSTRAINT `RES_CITA` FOREIGN KEY (`res_id`) REFERENCES `res_reservas` (`res_id`),
   ADD CONSTRAINT `SER_CITA` FOREIGN KEY (`ser_id`) REFERENCES `ser_servicios` (`ser_id`);
-
---
--- Filtros para la tabla `res_clientes`
---
-ALTER TABLE `res_clientes`
-  ADD CONSTRAINT `PERS_CLIE` FOREIGN KEY (`per_id`) REFERENCES `res_personas` (`per_id`);
 
 --
 -- Filtros para la tabla `res_medicos`
