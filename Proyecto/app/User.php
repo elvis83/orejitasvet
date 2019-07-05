@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -47,6 +48,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function roles()
     {
         return $this->belongsToMany('App\Role')->withTimestamps();
+    }
+
+    public function specialities()
+    {
+        return $this->belongsToMany('App\Speciality')->withTimestamps();
     }
 
     //Almacenamiento
@@ -110,7 +116,15 @@ class User extends Authenticatable implements MustVerifyEmail
             if ($permission->id == $id || $permission->slug == $id) return true;
         }
         return false;
-    }    
+    }
+
+    public function has_speciality($id)
+    {
+        foreach ($this->specialities as $speciality) {
+            if($speciality->id == $id) return true;
+        }
+        return false;
+    } 
     
     //Recuperacion de Informacion
 
@@ -128,23 +142,49 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function visible_users()
     {
-        if($this->has_role(config('app.admin_role'))) $users = self::all();
-        if($this->has_role(config('app.assistant_role'))){
+        if($this->has_role(config('app.admin_role')))
+        {
+            $users = self::all();
+        }elseif($this->has_role(config('app.assistant_role'))){
             $users = self::whereHas('roles', function($q){
                 $q->whereIn('slug', [
                     config('app.doctor_role'),
                     config('app.client_role')
                 ]);
             })->get();
-        }
-        if($this->has_role(config('app.doctor_role'))){
+        }elseif($this->has_role(config('app.doctor_role'))){
             $users = self::whereHas('roles', function($q){
                 $q->whereIn('slug', [
-                    config('app.client_role')
+                    config('app.client_role'),
                 ]);
             })->get();
         }
         return $users;
+    }
+
+    public function visible_roles()
+    {
+        if($this->has_role(config('app.admin_role'))) $roles = Role::all();
+        if($this->has_any_role([config('app.assistant_role'), config('app.doctor_role')])){
+            $roles = Role::where('slug', config('app.client_role'))->get();
+                     /*->orWhere('slug', config('app.doctor_role'))
+                     ->get();*/
+        }
+        return $roles;
+    }
+
+    public function list_roles()
+    {
+        $roles = $this->roles->pluck('name')->toArray();
+        $string = implode(', ', $roles);
+        return $string;
+    }
+
+    public function list_specialities()
+    {
+        $specialities = $this->specialities->pluck('name')->toArray();
+        $string = implode(', ', $specialities);
+        return $string;
     }
 
     //Otras Operaciones
@@ -176,7 +216,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         if (!is_null($view) && $view == 'frontoffice') {
             return 'theme.frontoffice.pages.user.edit';
-        } else if($auth->has_role(config('app.admin_role'))){
+        } else if($auth->has_any_role([config('app.admin_role'),  config('app.assistant_role')])){
             return 'theme.backoffice.pages.user.edit';
         } else {
             return 'theme.frontoffice.pages.user.edit';
@@ -189,7 +229,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         if (!is_null($view) && $view == 'frontoffice') {
             return 'frontoffice.user.profile';
-        } else if($auth->has_role(config('app.admin_role'))){
+        } else if($auth->has_any_role([config('app.admin_role'),  config('app.assistant_role')])){
             return 'backoffice.user.show';
         } else {
             return 'frontoffice.user.profile';

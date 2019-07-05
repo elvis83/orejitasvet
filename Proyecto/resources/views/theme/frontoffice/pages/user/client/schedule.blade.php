@@ -18,14 +18,26 @@
         			<div class="card-content">
         				<span class="card-title">@yield('title')</span>
                         <form action="#" method="POST">
+
                             {{ csrf_field() }}
+
                             <div class="row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">people</i>
-                                    <select name="medico">
-                                        <option value="1">Raul</option>
-                                        <option value="2">Carlos</option>
-                                        <option value="3">Homero</option>
+                                    <select id="speciality" name="speciality">
+                                        <option disabled="" selected="">Selecciona una especialidad</option>
+                                        @foreach($specialities as $speciality)
+                                            <option value="{{ $speciality->id }}">{{ $speciality->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="">Selecciona un médico</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">people</i>
+                                    <select id="doctor" name="doctor">
+                                        <option disabled="" selected="">Primero selecciona una especialidad</option>
                                     </select>
                                     <label for="">Selecciona un médico</label>
                                 </div>
@@ -33,13 +45,11 @@
                             <div class="row">
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix">today</i>
-                                    <input id="datepicker" type="text" name="date" class="datepicker">
-                                    <label for="datepicker">Selecciona una fecha</label>
+                                    <input id="datepicker" type="text" name="date" class="datepicker" placeholder="Selecciona una fecha">
                                 </div>
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix">access_time</i>
-                                    <input id="timepicker" type="text" name="time" class="timepicker">
-                                    <label for="timepicker">Selecciona un horario</label>
+                                    <input id="timepicker" type="text" name="time" class="timepicker" placeholder="Selecciona un horario">
                                 </div>
                             </div>
                             <div class="row">
@@ -59,9 +69,10 @@
     <script type="text/javascript" src="{{ asset('assets/frontoffice/plugins/pickadate/picker.time.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/frontoffice/plugins/pickadate/legacy.js') }}"></script>
     <script type="text/javascript">
-        $('select').formSelect();
+        
         var input_date = $('.datepicker').pickadate({
             min: true
+
         });
         var date_picker = input_date.pickadate('picker');
         
@@ -69,6 +80,25 @@
             min: 4
         });
         var time_picker = input_time.pickatime('picker');
+
+        $('.datepicker').on('mousedown',function(event){ event.preventDefault(); });
+        $('.timepicker').on('mousedown',function(event){ event.preventDefault(); });
+
+        var speciality = $('#speciality');
+        var doctor = $('#doctor');
+
+        speciality.change(function(){
+            $.ajax({
+                url: "{{ route('ajax.user_speciality') }}",
+                method: 'GET',
+                data: {
+                    speciality: speciality.val(),
+                },
+                success: function(data){
+                    console.log(data);
+                }
+            });
+        });
 
     </script>
 @endsection

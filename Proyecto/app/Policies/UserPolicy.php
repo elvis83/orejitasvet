@@ -32,8 +32,26 @@ class UserPolicy
     
     public function update(User $user, User $model)
     {        
-        
-        return ($user->has_permission('update-user') && $user->has_role(config('app.admin_role'))) || $user->id == $model->id;
+        if ($user->id == $model->id) {
+            return true;
+        }
+
+        if ($user->has_permission('update-user')){
+            if ($user->has_role(config('app.admin_role'))){
+            return true;
+            }
+
+            if ($user->has_role(config('app.assistant_role')) && $model->has_role(config('app.client_role'))){
+                return true;
+            }
+        }        
+
+        return false;
+
+        /*return ($user->has_permission('update-user') && $user->has_any_role([
+            config('app.admin_role'),
+            config('app.assistant_role')
+        ])) || $user->id == $model->id;*/
     }
 
     public function delete(User $user, User $model)

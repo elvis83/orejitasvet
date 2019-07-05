@@ -29,6 +29,7 @@
 									<th>Nombre</th>
 									<th>Edad</th>
 									<th>Correo</th>
+									<th>Roles</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
@@ -39,6 +40,7 @@
 									<td><a href="{{ route('backoffice.user.show', $user) }}">{{ $user->name }}</a></td>
 									<td>{{ $user->age() }}</td>
 									<td>{{  $user->email }}</td>
+									<td>{{ $user->list_roles() }}</td>
 									<td><a href="{{ route('backoffice.user.edit', $user) }}" title="Editar">
 											<i class="material-icons">border_color</i>
 										</a>

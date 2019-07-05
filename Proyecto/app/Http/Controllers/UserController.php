@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Role;
+use App\Speciality;
 
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
@@ -34,7 +35,7 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
         return view('theme.backoffice.pages.user.create',[
-            'roles' => Role::all(),
+            'roles' => auth()->user()->visible_roles(),
         ]);
     }
 
@@ -118,6 +119,29 @@ class UserController extends Controller
         $this->authorize('assign_permission', $user);
         $user->permissions()->sync($request->permissions);
         alert()->success('Permisos asignados', 'Exito')->autoclose(2000);
+        return redirect()->route('backoffice.user.show', $user);
+    }
+
+    /**
+     * Mostrar formulario para asignar especialidades médicas
+     *
+     */
+    public function assign_speciality(User $user)
+    {
+        return view('theme.backoffice.pages.user.assign_speciality', [
+            'user' => $user,
+            'specialities' => Speciality::all()
+        ]);
+    }
+
+    /*
+     * Asignar especialidades en la tabla pivote de la base de datos
+     *
+     */
+    public function speciality_assignment(Request $request, User $user)
+    {
+        $user->specialities()->sync($request->specialities);
+        alert()->success('Especialidades asignadas', 'Exito')->autoclose(2000);
         return redirect()->route('backoffice.user.show', $user);
     }
 

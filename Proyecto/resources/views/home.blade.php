@@ -24,6 +24,11 @@
                             href="{{ route('backoffice.admin.show') }}">
                             Panel de Control Asistente
                         </a>
+                    @elseif(auth()->user()->has_role(config('app.doctor_role')))
+                        <a 
+                            href="{{ route('backoffice.admin.show') }}">
+                            Panel de Control Doctor
+                        </a>
                     @else
                         <a 
                             href="{{ route('backoffice.admin.show') }}">
