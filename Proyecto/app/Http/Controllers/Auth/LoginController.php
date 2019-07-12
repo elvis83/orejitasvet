@@ -36,4 +36,26 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function authenticated()
+{
+    if(auth()->user()->has_role(config('app.client_role')))
+    {
+        return redirect()->route('frontoffice.user.profile');
+    } 
+    elseif (auth()->user()->has_role(config('app.assistant_role')))
+    {
+    	return redirect()->route('backoffice.admin.show');
+    }
+    elseif (auth()->user()->has_role(config('app.doctor_role')))
+    {
+    	return redirect()->route('backoffice.admin.show');
+    }
+    else
+    {
+    	return redirect()->route('backoffice.admin.show');
+    }
+
+    return redirect('/user/dashboard');
+}
 }

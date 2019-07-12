@@ -30,14 +30,14 @@ Route::get('/', function(){
     return view('welcome');
 });
 
-Route::get('home', function(){
+/*Route::get('home', function(){
     return view('home');
 })->middleware('auth');
 
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";
-});
+});*/
 
 Auth::routes(['verify' => true]);
 
