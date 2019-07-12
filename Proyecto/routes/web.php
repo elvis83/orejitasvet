@@ -54,10 +54,26 @@ Route::group(['middleware' => ['auth'], 'as' => 'backoffice.'], function(){
 
     Route::get('client/{user}/schedule', 'ClientController@back_schedule')
         ->name('client.schedule');
+    Route::post('client/{user}/store_back_schedule', 'ClientController@store_back_schedule')
+        ->name('client.store_back_schedule');
+
+    Route::get('backoffice/appointments', 'ClientController@show_appointments')
+        ->name('client.appointments.show');
+    Route::get('backoffice/doctor/{doctor}/appointments', 'ClientController@show_doctor_appointments')
+        ->name('doctor.appointments.show');
     Route::get('client/{user}/appointments', 'ClientController@back_appointments')
         ->name('client.appointments');
-    Route::get('client/{user}/invoices', 'ClientController@back_invoices')
-        ->name('client.invoices');
+    Route::get('client/{user}/appointments/{appointment}/edit', 'ClientController@back_appointments_edit')
+        ->name('client.appointments.edit');
+    Route::post('client/{user}/appointments/{appointment}/update', 'ClientController@back_appointment_update')
+        ->name('client.appointment.update');
+
+    Route::get('client/{user}/invoice', 'ClientController@back_invoice')
+        ->name('client.invoice');
+    Route::get('client/{user}/invoice/{invoice}/edit', 'ClientController@back_invoice_edit')
+        ->name('client.invoice_edit');
+    Route::post('client/{user}/invoice/{invoice}/update', 'ClientController@back_invoice_update')
+        ->name('client.invoice_update');
     
     Route::resource('role', 'RoleController');
     Route::get('user/{user}/assign_role', 'UserController@assign_role')
@@ -77,9 +93,42 @@ Route::group(['middleware' => ['auth'], 'as' => 'backoffice.'], function(){
     Route::post('user/{user}/speciality_assignment', 'UserController@speciality_assignment')
         ->name('user.speciality_assignment');
 
-    Route::resource('tipodocumento', 'TipoDocumentoController');
+    Route::resource('pet', 'PetController');
 
-    Route::resource('persona', 'PersonaController');
+    Route::resource('insumo', 'InsumoController');
+
+    Route::resource('medicamento', 'MedicamentoController');
+
+    Route::resource('servicio', 'ServicioController');
+
+    Route::resource('tiposervicio', 'TipoServicioController');
+
+    Route::resource('examen', 'ExamenController');
+
+    Route::resource('tipoexamen', 'TipoExamenController');
+
+    Route::resource('resultado', 'ResultadoController');
+
+    Route::resource('diagnostico', 'DiagnosticoController');
+
+    Route::resource('recetamedica', 'RecetaMedicaController');
+
+    Route::resource('recetadetalle', 'RecetaDetalleController');
+
+    Route::resource('turnomedico', 'TurnoMedicoController');
+
+    Route::resource('client/{user}/clinic_data', 'ClinicDataController', ['only' => [
+        'index', 'create', 'store'
+    ]]);
+
+    Route::resource('client/{user}/clinic_note', 'ClinicNoteController', ['only' => [
+        'store', 'edit', 'update', 'destroy'
+    ]]);
+
+    Route::get('doctor/{user}/doctor_schedule', 'DoctorScheduleController@assign')
+        ->name('doctor.schedule.assign');
+    Route::post('doctor/{user}/doctor_schedule', 'DoctorScheduleController@assignment')
+        ->name('doctor.schedule.assignment');
 
 });
 
@@ -98,6 +147,8 @@ Route::group(['middleware' => ['auth'], 'as' => 'frontoffice.'], function(){
 
     Route::get('client/schedule', 'ClientController@schedule')
         ->name('client.schedule');
+    Route::post('client/store_schedule', 'ClientController@store_schedule')
+        ->name('client.store_schedule');
     Route::get('client/appointments', 'ClientController@appointments')
         ->name('client.appointments');
     Route::get('client/prescriptions', 'ClientController@prescriptions')
@@ -106,8 +157,16 @@ Route::group(['middleware' => ['auth'], 'as' => 'frontoffice.'], function(){
         ->name('client.invoices');
 });
 
-Route::group(['as' => 'ajax.'], function(){
+Route::group(['middleware' => ['auth'], 'as' => 'ajax.'], function(){
 
     Route::get('user_speciality', 'AjaxController@user_speciality')
         ->name('user_speciality');
+    Route::get('invoice_info', 'AjaxController@invoice_info')
+        ->name('invoice_info');
+    Route::get('pet_user', 'AjaxController@pet_user')
+        ->name('pet_user');
+    Route::get('note_info', 'AjaxController@note_info')
+        ->name('note_info');
+    Route::get('doctor/disable_dates', 'AjaxController@disable_dates')
+        ->name('doctor.disable_dates');
 });

@@ -36,6 +36,7 @@ class UserController extends Controller
         $this->authorize('create', User::class);
         return view('theme.backoffice.pages.user.create',[
             'roles' => auth()->user()->visible_roles(),
+            //'pets' => App\Pet::all()
         ]);
     }
 

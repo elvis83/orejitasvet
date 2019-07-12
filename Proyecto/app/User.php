@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Role;
+use App\ClinicNote;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -55,7 +56,52 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany('App\Speciality')->withTimestamps();
     }
 
-    //Almacenamiento
+    public function pets()
+    {
+        return $this->hasMany('App\Pet');
+    }
+
+    public function turnos()
+    {
+        return $this->hasMany('App\TurnoMedico');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany('App\Invoice');
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany('App\Appointment');
+    }
+
+    public function clinic_datas()
+    {
+        return $this->hasMany('App\ClinicData');
+    }
+
+    public function clinic_notes()
+    {
+        return $this->hasMany('App\ClinicNote');
+    }
+
+    public function doctor_schedules()
+    {
+        return $this->hasMany('App\DoctorSchedule');
+    }
+
+    public function disable_dates()
+    {
+        return $this->hasMany('App\DisableDate');
+    }
+
+    public function disable_times()
+    {
+        return $this->hasMany('App\DisableTime');
+    }
+
+//Almacenamiento
 
     public function store($request)
     {
@@ -187,6 +233,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return $string;
     }
 
+    public function clinic_data_array()
+    {
+        $datas = $this->clinic_datas->pluck('value','key')->toArray();
+        return $datas;
+    }
+
+    public function clinic_data($key, $array = null, $default = null)
+    {   
+        $array = (!is_null($array)) ? $array : $this->clinic_data_array();
+        if(array_key_exists($key, $array)){
+            $value = $array[$key];
+        }else{
+            $value = $default;
+        } 
+        return $value;
+    }
+
     //Otras Operaciones
     public function verify_permission_integrity(array $roles)
     {
@@ -207,6 +270,43 @@ class User extends Authenticatable implements MustVerifyEmail
                 $this->permissions()->syncWithoutDetaching($permissions);
             }
         }
+    }
+
+    public function manual_disabled_dates()
+    {
+        $disable_date = $this->disable_dates()->where('key', 'manual')->first();
+        if(!is_null($disable_date)){
+            return $disable_date->value;
+        }else{
+            return null;
+        }   
+    }
+
+    public function process_disabled_dates($dates)
+    {
+        //Convertimos en un arreglo las fechas
+        $dates = explode(',', $dates);
+
+        //Declaramos la variable new_dates para almacenar las fechas procesadas.
+        $str_dates = '';
+        // Para el plugin de pickadate es necesario reducir una unidad cada mes para que corresponda con la selección del usuario
+
+        foreach ($dates as $key => $date) {
+
+            $date = trim($date);
+            $date_elements = explode('/', $date);
+            
+            $year = $date_elements[0];
+            $month = $date_elements[1];
+            $day = $date_elements[2];
+            
+            $new_date = $year . ',' . ($month - 1) . ',' . $day;
+            $str_dates .= $new_date . '-';
+        }
+        //Eliminamos el último caracter de la cadena
+        $str_dates = substr($str_dates, 0, -1);
+        
+        return $str_dates;
     }
 
     //Vistas
@@ -236,4 +336,13 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function days_off()
+    {
+        $days_off = $this->disable_dates()->where('key', 'days_off')->first();
+        if(!is_null($days_off)){
+            return $days_off->value;
+        }else{
+            return null;
+        } 
+    }
 }
