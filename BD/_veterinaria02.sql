@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-06-2019 a las 20:06:53
+-- Tiempo de generación: 13-07-2019 a las 01:36:17
 -- Versión del servidor: 10.3.15-MariaDB
 -- Versión de PHP: 7.3.6
 
@@ -19,15 +19,240 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `orejitasvet`
+-- Base de datos: `orejitas`
 --
-CREATE DATABASE IF NOT EXISTS `orejitasvet` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `orejitasvet`;
+CREATE DATABASE IF NOT EXISTS `orejitas` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `orejitas`;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `migrations` NO NECESARIA EN EL TRABAJO DE NUESTRO SISTEMA
+-- Estructura de tabla para la tabla `appointments`
+--
+
+CREATE TABLE `appointments` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `doctor_id` int(10) UNSIGNED NOT NULL,
+  `status` enum('Pendiente','Realizado','Cancelado') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Pendiente',
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `pet_id` int(10) UNSIGNED NOT NULL,
+  `invoice_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `date`, `doctor_id`, `status`, `user_id`, `pet_id`, `invoice_id`, `created_at`, `updated_at`) VALUES
+(1, '2019-07-18 22:30:00', 25, '', 20, 0, 1, '2019-07-12 03:55:15', '2019-07-12 04:46:51'),
+(2, '2019-07-12 07:21:11', 25, 'Cancelado', 20, 0, 4, '2019-07-12 04:07:45', '2019-07-12 12:21:11'),
+(3, '2019-07-12 22:30:00', 25, '', 20, 0, 5, '2019-07-12 04:28:32', '2019-07-12 04:41:13'),
+(4, '2019-07-12 03:54:42', 25, 'Realizado', 23, 0, 6, '2019-07-12 05:07:55', '2019-07-12 08:54:42'),
+(5, '2019-07-16 21:30:00', 25, 'Pendiente', 23, 0, 7, '2019-07-12 08:54:12', '2019-07-12 08:54:12'),
+(6, '2019-07-12 05:38:31', 25, 'Realizado', 24, 1, 13, '2019-07-12 10:32:31', '2019-07-12 10:38:31'),
+(7, '2019-07-25 13:30:00', 25, 'Pendiente', 24, 2, 14, '2019-07-12 10:39:42', '2019-07-12 10:39:42'),
+(8, '2019-07-12 07:14:06', 25, 'Cancelado', 24, 1, 15, '2019-07-12 11:45:07', '2019-07-12 12:14:06'),
+(9, '2019-07-12 07:20:47', 25, 'Cancelado', 24, 1, 16, '2019-07-12 12:12:20', '2019-07-12 12:20:47'),
+(10, '2019-07-13 15:30:00', 25, 'Pendiente', 24, 1, 17, '2019-07-12 18:15:10', '2019-07-12 18:15:10'),
+(11, '2019-07-31 14:30:00', 25, 'Pendiente', 24, 2, 18, '2019-07-12 18:45:30', '2019-07-12 18:45:30'),
+(12, '2019-07-17 21:00:00', 25, 'Pendiente', 24, 1, 19, '2019-07-13 00:24:27', '2019-07-13 00:24:27'),
+(13, '2019-07-23 23:00:00', 25, 'Pendiente', 24, 2, 20, '2019-07-13 00:26:25', '2019-07-13 00:26:25');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clinic_data`
+--
+
+CREATE TABLE `clinic_data` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_by` int(10) UNSIGNED NOT NULL,
+  `updated_by` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clinic_notes`
+--
+
+CREATE TABLE `clinic_notes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `description` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `privacy` enum('public','private') COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_by` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `clinic_notes`
+--
+
+INSERT INTO `clinic_notes` (`id`, `date`, `description`, `privacy`, `user_id`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, '2019-07-13 00:47:12', 'Prueba', 'public', 24, 25, '2019-07-13 00:47:12', '2019-07-13 00:47:12');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `disable_dates`
+--
+
+CREATE TABLE `disable_dates` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `disable_times`
+--
+
+CREATE TABLE `disable_times` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `doctor_schedules`
+--
+
+CREATE TABLE `doctor_schedules` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `invoices`
+--
+
+CREATE TABLE `invoices` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `amount` double(8,2) NOT NULL,
+  `status` enum('Pendiente','Aprobado','Rechazado','Cancelado','Devolución') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Pendiente',
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `invoices`
+--
+
+INSERT INTO `invoices` (`id`, `amount`, `status`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 500.00, '', 20, '2019-07-12 03:55:15', '2019-07-12 04:46:51'),
+(2, 500.00, '', 20, '2019-07-12 04:02:30', '2019-07-12 04:02:30'),
+(3, 500.00, '', 20, '2019-07-12 04:04:29', '2019-07-12 04:04:29'),
+(4, 500.00, 'Cancelado', 20, '2019-07-12 04:07:45', '2019-07-12 12:21:11'),
+(5, 500.00, '', 20, '2019-07-12 04:28:32', '2019-07-12 04:41:13'),
+(6, 500.00, 'Aprobado', 23, '2019-07-12 05:07:55', '2019-07-12 09:07:01'),
+(7, 500.00, 'Pendiente', 23, '2019-07-12 08:54:12', '2019-07-12 08:54:12'),
+(8, 500.00, 'Pendiente', 24, '2019-07-12 10:23:15', '2019-07-12 10:23:15'),
+(9, 500.00, 'Pendiente', 24, '2019-07-12 10:27:16', '2019-07-12 10:27:16'),
+(10, 500.00, 'Pendiente', 24, '2019-07-12 10:30:31', '2019-07-12 10:30:31'),
+(11, 500.00, 'Pendiente', 24, '2019-07-12 10:30:58', '2019-07-12 10:30:58'),
+(12, 500.00, 'Pendiente', 24, '2019-07-12 10:31:35', '2019-07-12 10:31:35'),
+(13, 500.00, 'Aprobado', 24, '2019-07-12 10:32:31', '2019-07-12 10:38:31'),
+(14, 500.00, 'Pendiente', 24, '2019-07-12 10:39:42', '2019-07-12 10:39:42'),
+(15, 500.00, 'Cancelado', 24, '2019-07-12 11:45:07', '2019-07-12 12:14:06'),
+(16, 500.00, 'Cancelado', 24, '2019-07-12 12:12:20', '2019-07-12 12:20:47'),
+(17, 500.00, 'Pendiente', 24, '2019-07-12 18:15:09', '2019-07-12 18:15:09'),
+(18, 500.00, 'Pendiente', 24, '2019-07-12 18:45:30', '2019-07-12 18:45:30'),
+(19, 500.00, 'Pendiente', 24, '2019-07-13 00:24:27', '2019-07-13 00:24:27'),
+(20, 500.00, 'Pendiente', 24, '2019-07-13 00:26:25', '2019-07-13 00:26:25');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `invoice_metas`
+--
+
+CREATE TABLE `invoice_metas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `invoice_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `invoice_metas`
+--
+
+INSERT INTO `invoice_metas` (`id`, `key`, `value`, `invoice_id`, `created_at`, `updated_at`) VALUES
+(1, 'doctor', '25', 1, '2019-07-12 03:55:15', '2019-07-12 03:55:15'),
+(2, 'concept', 'Cita médica', 1, '2019-07-12 03:55:15', '2019-07-12 03:55:15'),
+(3, 'doctor', '25', 2, '2019-07-12 04:02:30', '2019-07-12 04:02:30'),
+(4, 'concept', 'Cita médica', 2, '2019-07-12 04:02:30', '2019-07-12 04:02:30'),
+(5, 'doctor', '25', 3, '2019-07-12 04:04:29', '2019-07-12 04:04:29'),
+(6, 'concept', 'Cita médica', 3, '2019-07-12 04:04:29', '2019-07-12 04:04:29'),
+(7, 'doctor', '25', 4, '2019-07-12 04:07:45', '2019-07-12 04:07:45'),
+(8, 'concept', 'Cita médica', 4, '2019-07-12 04:07:45', '2019-07-12 04:07:45'),
+(9, 'doctor', '25', 5, '2019-07-12 04:28:32', '2019-07-12 04:28:32'),
+(10, 'concept', 'Cita médica', 5, '2019-07-12 04:28:32', '2019-07-12 04:28:32'),
+(11, 'doctor', '25', 6, '2019-07-12 05:07:55', '2019-07-12 05:07:55'),
+(12, 'concept', 'Cita médica', 6, '2019-07-12 05:07:55', '2019-07-12 05:07:55'),
+(13, 'doctor', '25', 7, '2019-07-12 08:54:12', '2019-07-12 08:54:12'),
+(14, 'concept', 'Cita médica', 7, '2019-07-12 08:54:12', '2019-07-12 08:54:12'),
+(15, 'doctor', '25', 8, '2019-07-12 10:23:15', '2019-07-12 10:23:15'),
+(16, 'concept', 'Cita médica', 8, '2019-07-12 10:23:16', '2019-07-12 10:23:16'),
+(17, 'doctor', '25', 9, '2019-07-12 10:27:16', '2019-07-12 10:27:16'),
+(18, 'concept', 'Cita médica', 9, '2019-07-12 10:27:16', '2019-07-12 10:27:16'),
+(19, 'doctor', '25', 10, '2019-07-12 10:30:31', '2019-07-12 10:30:31'),
+(20, 'concept', 'Cita médica', 10, '2019-07-12 10:30:31', '2019-07-12 10:30:31'),
+(21, 'doctor', '25', 11, '2019-07-12 10:30:58', '2019-07-12 10:30:58'),
+(22, 'concept', 'Cita médica', 11, '2019-07-12 10:30:59', '2019-07-12 10:30:59'),
+(23, 'doctor', '25', 12, '2019-07-12 10:31:35', '2019-07-12 10:31:35'),
+(24, 'concept', 'Cita médica', 12, '2019-07-12 10:31:35', '2019-07-12 10:31:35'),
+(25, 'doctor', '25', 13, '2019-07-12 10:32:31', '2019-07-12 10:32:31'),
+(26, 'concept', 'Cita médica', 13, '2019-07-12 10:32:31', '2019-07-12 10:32:31'),
+(27, 'doctor', '25', 14, '2019-07-12 10:39:42', '2019-07-12 10:39:42'),
+(28, 'concept', 'Cita médica', 14, '2019-07-12 10:39:42', '2019-07-12 10:39:42'),
+(29, 'doctor', '25', 15, '2019-07-12 11:45:07', '2019-07-12 11:45:07'),
+(30, 'concept', 'Cita médica', 15, '2019-07-12 11:45:07', '2019-07-12 11:45:07'),
+(31, 'doctor', '25', 16, '2019-07-12 12:12:20', '2019-07-12 12:12:20'),
+(32, 'concept', 'Cita médica', 16, '2019-07-12 12:12:20', '2019-07-12 12:12:20'),
+(33, 'doctor', '25', 17, '2019-07-12 18:15:09', '2019-07-12 18:15:09'),
+(34, 'concept', 'Cita médica', 17, '2019-07-12 18:15:10', '2019-07-12 18:15:10'),
+(35, 'doctor', '25', 18, '2019-07-12 18:45:30', '2019-07-12 18:45:30'),
+(36, 'concept', 'Cita médica', 18, '2019-07-12 18:45:30', '2019-07-12 18:45:30'),
+(37, 'doctor', '25', 19, '2019-07-13 00:24:27', '2019-07-13 00:24:27'),
+(38, 'concept', 'Cita médica', 19, '2019-07-13 00:24:27', '2019-07-13 00:24:27'),
+(39, 'doctor', '25', 20, '2019-07-13 00:26:25', '2019-07-13 00:26:25'),
+(40, 'concept', 'Cita médica', 20, '2019-07-13 00:26:25', '2019-07-13 00:26:25');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -49,47 +274,18 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2019_06_11_030155_create_permission_user_table', 1),
 (7, '2019_06_18_044106_create_res_tipodocumento_table', 2),
 (8, '2019_06_21_133148_add_dob_to_users_table', 3),
-(9, '2019_06_25_203846_drop_permissions_slug_unique', 4);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pag_comprobantes`
---
-
-CREATE TABLE `pag_comprobantes` (
-  `com_id` int(11) NOT NULL,
-  `com_fecha` date NOT NULL,
-  `com_tipo` enum('B','F') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'B' COMMENT 'Valores permitidos: (B) Boleta y (F) Factura.',
-  `com_monto` decimal(4,2) NOT NULL DEFAULT 0.00,
-  `com_estado` enum('V','A') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'V' COMMENT 'Valores permitidos: (A) Anulado y (V) Vigente.',
-  `clie_id` int(11) NOT NULL,
-  `tipp_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El comprobante será el documento que acredite la prestación del servicio.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pag_detalle_comprobantes`
---
-
-CREATE TABLE `pag_detalle_comprobantes` (
-  `detc_cant` int(11) NOT NULL DEFAULT 0,
-  `detc_preu` decimal(3,2) NOT NULL DEFAULT 0.00,
-  `com_id` int(11) NOT NULL,
-  `ser_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El detalle del comprobantenos describe los servicios adquiridos por el cliente y detalla los costos generados.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pag_tipo_pagos`
---
-
-CREATE TABLE `pag_tipo_pagos` (
-  `tipp_id` int(11) NOT NULL,
-  `tipp_desc` varchar(60) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El tipo de pago se dará por el tipo de modalidad que elija el cliente para poder cancelar la deuda por la obtención del servicio.';
+(9, '2019_06_25_203846_drop_permissions_slug_unique', 4),
+(10, '2019_07_01_152041_create_invoices_table', 5),
+(11, '2019_07_01_152209_create_invoice_metas_table', 5),
+(12, '2019_07_01_152225_create_appointments_table', 5),
+(13, '2019_07_01_155855_create_specialities_table', 6),
+(14, '2019_07_01_160059_create_speciality_user_table', 6),
+(15, '2019_07_04_172318_create_pets_table', 7),
+(16, '2019_07_12_131813_create_clinic_data_table', 7),
+(17, '2019_07_12_143320_create_clinic_notes_table', 8),
+(18, '2019_07_12_150524_create_doctor_schedules_table', 9),
+(19, '2019_07_12_150556_create_disable_dates_table', 9),
+(20, '2019_07_12_150612_create_disable_times_table', 9);
 
 -- --------------------------------------------------------
 
@@ -146,7 +342,40 @@ INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `role_id`, `crea
 (22, 'create-tipodocumento', 'create-tipodocumento', 'create-tipodocumento', 1, '2019-06-30 01:17:47', '2019-06-30 01:17:47'),
 (23, 'view-tipodocumento', 'view-tipodocumento', 'view-tipodocumento', 1, '2019-06-30 01:18:22', '2019-06-30 01:18:22'),
 (24, 'update-tipodocumento', 'update-tipodocumento', 'update-tipodocumento', 1, '2019-06-30 01:18:46', '2019-06-30 01:18:46'),
-(25, 'delete-tipodocumento', 'delete-tipodocumento', 'delete-tipodocumento', 1, '2019-06-30 01:19:57', '2019-06-30 01:19:57');
+(25, 'delete-tipodocumento', 'delete-tipodocumento', 'delete-tipodocumento', 1, '2019-06-30 01:19:57', '2019-06-30 01:19:57'),
+(27, 'index-user', 'index-user', 'index-user', 2, '2019-07-01 00:43:45', '2019-07-01 00:43:45'),
+(28, 'create-user', 'create-user', 'create-user', 2, '2019-07-01 00:49:56', '2019-07-01 00:49:56'),
+(29, 'view-user', 'view-user', 'view-user', 2, '2019-07-01 00:50:23', '2019-07-01 00:50:23'),
+(30, 'update-user', 'update-user', 'update-user', 2, '2019-07-01 00:50:47', '2019-07-01 00:50:47'),
+(31, 'delete-user', 'delete-user', 'delete-user', 2, '2019-07-01 00:51:09', '2019-07-01 00:51:09'),
+(32, 'index-user', 'index-user', 'index-user', 3, '2019-07-01 19:46:15', '2019-07-01 19:46:15'),
+(33, 'view-user', 'view-user', 'view-user', 3, '2019-07-01 19:47:00', '2019-07-01 19:47:00'),
+(34, 'create-user', 'create-user', 'create-user', 3, '2019-07-01 19:47:18', '2019-07-01 19:47:18'),
+(35, 'index-pet', 'index-pet', 'index-pet', 1, '2019-07-04 22:34:37', '2019-07-04 22:34:37'),
+(36, 'index-insumo', 'index-insumo', 'index-insumo', 1, '2019-07-08 20:58:14', '2019-07-08 20:58:14'),
+(37, 'create-insumo', 'create-insumo', 'create-insumo', 1, '2019-07-08 20:59:18', '2019-07-08 20:59:18'),
+(38, 'view-insumo', 'view-insumo', 'view-insumo', 1, '2019-07-08 20:59:55', '2019-07-08 20:59:55'),
+(39, 'update-insumo', 'update-insumo', 'update-insumo', 1, '2019-07-08 21:00:31', '2019-07-08 21:00:31'),
+(40, 'delete-insumo', 'delete-insumo', 'delete-insumo', 1, '2019-07-08 21:01:02', '2019-07-08 21:01:02'),
+(41, 'create-pet', 'create-pet', 'create-pet', 1, '2019-07-09 19:10:59', '2019-07-09 19:10:59'),
+(42, 'view-pet', 'view-pet', 'view-pet', 1, '2019-07-09 19:11:17', '2019-07-09 19:11:17'),
+(43, 'update-pet', 'update-pet', 'update-pet', 1, '2019-07-09 19:11:34', '2019-07-09 19:11:34'),
+(44, 'delete-pet', 'delete-pet', 'delete-pet', 1, '2019-07-09 19:11:51', '2019-07-09 19:11:51'),
+(45, 'index-servicio', 'index-servicio', 'index-servicio', 1, '2019-07-09 19:35:00', '2019-07-09 19:35:00'),
+(46, 'create-servicio', 'create-servicio', 'create-servicio', 1, '2019-07-09 19:35:24', '2019-07-09 19:35:24'),
+(47, 'view-servicio', 'view-servicio', 'view-servicio', 1, '2019-07-09 19:35:44', '2019-07-09 19:35:44'),
+(48, 'update-servicio', 'update-servicio', 'update-servicio', 1, '2019-07-09 19:36:06', '2019-07-09 19:36:06'),
+(49, 'delete-servicio', 'delete-servicio', 'delete-servicio', 1, '2019-07-09 19:36:23', '2019-07-09 19:36:23'),
+(50, 'index-tiposervicio', 'index-tiposervicio', 'index-tiposervicio', 1, '2019-07-09 20:18:52', '2019-07-09 20:18:52'),
+(51, 'create-tiposervicio', 'create-tiposervicio', 'create-tiposervicio', 1, '2019-07-09 20:19:08', '2019-07-09 20:19:08'),
+(52, 'view-tiposervicio', 'view-tiposervicio', 'view-tiposervicio', 1, '2019-07-09 20:19:29', '2019-07-09 20:19:29'),
+(53, 'update-tiposervicio', 'update-tiposervicio', 'update-tiposervicio', 1, '2019-07-09 20:19:46', '2019-07-09 20:19:46'),
+(54, 'delete-tiposervicio', 'delete-tiposervicio', 'delete-tiposervicio', 1, '2019-07-09 20:20:04', '2019-07-09 20:20:04'),
+(55, 'index-pet', 'index-pet', 'index-pet', 2, '2019-07-12 09:31:25', '2019-07-12 09:31:25'),
+(56, 'create-pet', 'create-pet', 'create-pet', 2, '2019-07-12 09:31:47', '2019-07-12 09:31:47'),
+(57, 'view-pet', 'view-pet', 'view-pet', 2, '2019-07-12 09:32:04', '2019-07-12 09:32:04'),
+(58, 'view-appointments', 'view-appointments', 'view-appointments', 3, '2019-07-12 11:40:58', '2019-07-12 11:40:58'),
+(59, 'view-appointments-calendar', 'view-appointments-calendar', 'view_appointments_calendar', 3, '2019-07-12 11:57:12', '2019-07-12 11:58:06');
 
 -- --------------------------------------------------------
 
@@ -189,144 +418,40 @@ INSERT INTO `permission_user` (`id`, `permission_id`, `user_id`, `created_at`, `
 (41, 22, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
 (42, 23, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
 (43, 24, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
-(44, 25, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_citas`
---
-
-CREATE TABLE `res_citas` (
-  `cit_id` int(11) NOT NULL,
-  `cit_fecha` date NOT NULL,
-  `cit_estado` enum('P','C','R') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'P' COMMENT 'Valores permitidos: (P) Pendiente, (C) Cancelado y (R) Realizado.',
-  `res_id` int(11) NOT NULL,
-  `ser_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La cita será cuando ya se haya dado el día y la hora fijad, y se apersonen a la veterinaria a pasar consulta.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_especialidades`
---
-
-CREATE TABLE `res_especialidades` (
-  `esp_id` int(11) NOT NULL,
-  `esp_nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `esp_descripcion` varchar(250) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La especialidad clinica supone el cargo que el Medico ocupa dentro de la veterinaria para poder ofrecer un servicio determinado.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_medicos`
---
-
-CREATE TABLE `res_medicos` (
-  `med_id` int(11) NOT NULL,
-  `med_estado` enum('A','B') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'A' COMMENT 'Valores permitidos (A) Activo y (B) Baja.',
-  `per_id` int(11) NOT NULL,
-  `esp_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La tabla Médico describe los datos del especialista que trabaja en la Veterinaria y atenderá los servicios solicitados por los clientes.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_personas`
---
-
-CREATE TABLE `res_personas` (
-  `per_id` int(11) NOT NULL,
-  `per_apepat` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `per_apemat` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `per_nombres` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
-  `per_dir` varchar(120) COLLATE utf8_unicode_ci NOT NULL,
-  `tipd_id` int(11) NOT NULL,
-  `per_nrodoc` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
-  `per_fecnac` date NOT NULL,
-  `per_sexo` enum('H','M','I') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Valores permitidos: (H) Hombre - (M) Mujer - (I) Indefinido',
-  `per_tel` varchar(9) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `per_cel` varchar(9) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `per_ecivil` enum('S','C','V','D') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Valores permitidos: (S) Soltero, (C) Casado, (V) Viudo y (D) Divorciado',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='En la tabla Persona se generaliza los datos, ya sea de un Cliente o un Médico';
-
---
--- Volcado de datos para la tabla `res_personas`
---
-
-INSERT INTO `res_personas` (`per_id`, `per_apepat`, `per_apemat`, `per_nombres`, `per_dir`, `tipd_id`, `per_nrodoc`, `per_fecnac`, `per_sexo`, `per_tel`, `per_cel`, `per_ecivil`, `created_at`, `updated_at`) VALUES
-(1, 'CASTRO', 'JAVIER', 'ALBERTO', 'AV. PARDO 133', 1, '44444448', '1975-12-12', 'H', '999999999', NULL, 'C', '2019-06-18 21:29:39', '2019-06-18 21:29:39');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_reservas`
---
-
-CREATE TABLE `res_reservas` (
-  `res_id` int(11) NOT NULL,
-  `res_fecres` date NOT NULL,
-  `res_motivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `res_estado` enum('P','C','R') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'P' COMMENT 'Valores permitidos: (P) Pendiente, (C) Cancelado y (R) Relaizado.',
-  `mas_id` int(11) NOT NULL,
-  `tur_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La reserva se genera cuando el cliente contacta con la veterinaria para separar una cita.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_tipodocumentos`
---
-
-CREATE TABLE `res_tipodocumentos` (
-  `tipd_id` int(11) NOT NULL,
-  `tipd_nombre` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `tipd_abreviatura` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `res_tipodocumentos`
---
-
-INSERT INTO `res_tipodocumentos` (`tipd_id`, `tipd_nombre`, `tipd_abreviatura`, `created_at`, `updated_at`) VALUES
-(1, 'Documento Nacional de Identidad', 'DNI', '2019-06-18 10:27:39', '2019-06-18 10:27:39'),
-(2, 'Pasaporte', 'PAS', '2019-06-18 10:33:12', '2019-06-18 10:33:12'),
-(3, 'Tarjeta de Registro Civil', 'TRC', '2019-06-18 10:36:07', '2019-06-18 10:36:07');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_turnos`
---
-
-CREATE TABLE `res_turnos` (
-  `tur_id` int(11) NOT NULL,
-  `tur_fectur` date NOT NULL,
-  `tur_hini` time NOT NULL,
-  `tur_hfin` time NOT NULL,
-  `tur_estado` enum('D','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'D' COMMENT 'Valores permitidos: (D) Disponible y (N) No Disponible',
-  `med_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El turno programado es la programación de las fechas y horarios de atención de los médicos.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `res_usuarios`
---
-
-CREATE TABLE `res_usuarios` (
-  `usu_id` int(11) NOT NULL,
-  `med_id` int(11) NOT NULL,
-  `usu_user` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `usu_clave` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `usu_fecreg` date NOT NULL,
-  `usu_estado` enum('A','B') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'A' COMMENT 'Valores permitidos: (A) Activo - (B) Baja.'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La tabla Usuario establece una cuenta única a un Médico para el uso del Sistema Web, para poder acceder al sistema y sus características.';
+(44, 25, 17, '2019-06-30 04:00:52', '2019-06-30 04:00:52'),
+(68, 27, 22, '2019-07-01 00:44:39', '2019-07-01 00:44:39'),
+(69, 28, 22, '2019-07-01 00:51:30', '2019-07-01 00:51:30'),
+(70, 29, 22, '2019-07-01 00:51:30', '2019-07-01 00:51:30'),
+(71, 30, 22, '2019-07-01 00:51:30', '2019-07-01 00:51:30'),
+(72, 31, 22, '2019-07-01 00:51:30', '2019-07-01 00:51:30'),
+(73, 32, 25, '2019-07-01 19:47:32', '2019-07-01 19:47:32'),
+(74, 33, 25, '2019-07-01 19:47:32', '2019-07-01 19:47:32'),
+(75, 34, 25, '2019-07-01 19:47:32', '2019-07-01 19:47:32'),
+(104, 35, 17, '2019-07-04 22:38:32', '2019-07-04 22:38:32'),
+(105, 36, 17, '2019-07-08 21:01:32', '2019-07-08 21:01:32'),
+(106, 37, 17, '2019-07-08 21:01:32', '2019-07-08 21:01:32'),
+(107, 38, 17, '2019-07-08 21:01:32', '2019-07-08 21:01:32'),
+(108, 39, 17, '2019-07-08 21:01:32', '2019-07-08 21:01:32'),
+(109, 40, 17, '2019-07-08 21:01:32', '2019-07-08 21:01:32'),
+(110, 41, 17, '2019-07-09 19:12:05', '2019-07-09 19:12:05'),
+(111, 42, 17, '2019-07-09 19:12:05', '2019-07-09 19:12:05'),
+(112, 43, 17, '2019-07-09 19:12:05', '2019-07-09 19:12:05'),
+(113, 44, 17, '2019-07-09 19:12:05', '2019-07-09 19:12:05'),
+(114, 45, 17, '2019-07-09 19:36:37', '2019-07-09 19:36:37'),
+(115, 46, 17, '2019-07-09 19:36:37', '2019-07-09 19:36:37'),
+(116, 47, 17, '2019-07-09 19:36:37', '2019-07-09 19:36:37'),
+(117, 48, 17, '2019-07-09 19:36:37', '2019-07-09 19:36:37'),
+(118, 49, 17, '2019-07-09 19:36:37', '2019-07-09 19:36:37'),
+(119, 50, 17, '2019-07-09 20:20:21', '2019-07-09 20:20:21'),
+(120, 51, 17, '2019-07-09 20:20:21', '2019-07-09 20:20:21'),
+(121, 52, 17, '2019-07-09 20:20:21', '2019-07-09 20:20:21'),
+(122, 53, 17, '2019-07-09 20:20:21', '2019-07-09 20:20:21'),
+(123, 54, 17, '2019-07-09 20:20:21', '2019-07-09 20:20:21'),
+(124, 55, 22, '2019-07-12 09:32:18', '2019-07-12 09:32:18'),
+(125, 56, 22, '2019-07-12 09:32:18', '2019-07-12 09:32:18'),
+(126, 57, 22, '2019-07-12 09:32:18', '2019-07-12 09:32:18'),
+(127, 58, 25, '2019-07-12 11:41:20', '2019-07-12 11:41:20'),
+(128, 59, 25, '2019-07-12 11:57:26', '2019-07-12 11:57:26');
 
 -- --------------------------------------------------------
 
@@ -373,110 +498,12 @@ CREATE TABLE `role_user` (
 
 INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (5, 1, 17, '2019-06-29 14:41:01', '2019-06-29 14:41:01'),
-(10, 5, 20, '2019-06-29 18:03:13', '2019-06-29 18:03:13');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_control_vacunas`
---
-
-CREATE TABLE `ser_control_vacunas` (
-  `con_id` int(11) NOT NULL,
-  `con_fecap` date NOT NULL,
-  `con_fecve` date NOT NULL,
-  `con_obs` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tips_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El control de vacuna será el cronograma que se debe seguir para estar al día con las vacunas de la mascota.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_detalle_historias`
---
-
-CREATE TABLE `ser_detalle_historias` (
-  `deth_id` int(11) NOT NULL,
-  `deth_fechis` date NOT NULL,
-  `deth_obs` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `deth_estado` enum('V','A') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'V' COMMENT 'Valores permitidos: (V) Vigente y (A) Anulado.',
-  `his_id` int(11) NOT NULL,
-  `con_id` int(11) NOT NULL,
-  `ser_id` int(11) NOT NULL,
-  `exa_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El detalle de la historia muestra la descripción de la historia, la cual mostrará los datos por fechas y atención de las mascotas y los detalles más relevantes.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_detalle_insumos`
---
-
-CREATE TABLE `ser_detalle_insumos` (
-  `deti_cant` int(11) NOT NULL,
-  `deti_id` int(11) NOT NULL,
-  `deti_estado` enum('D','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'D' COMMENT 'Valores permitidos: (D) Disponible y (N) No Disponible.',
-  `ser_id` int(11) NOT NULL,
-  `ins_id` int(11) NOT NULL,
-  `medi_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='En la tabla detalle insumos se detallarán los insumos usados por cada servicio que se brinda.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_diagnosticos`
---
-
-CREATE TABLE `ser_diagnosticos` (
-  `dia_id` int(11) NOT NULL,
-  `dia_trat` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
-  `dia_obs` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `res_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El diagnóstico será el procedimiento por el cual se identifica alguna enfermedad o cualquier estado de salud.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_examenes`
---
-
-CREATE TABLE `ser_examenes` (
-  `exa_id` int(11) NOT NULL,
-  `exa_temp` decimal(2,1) NOT NULL DEFAULT 0.0,
-  `exa_peso` decimal(3,2) NOT NULL DEFAULT 0.00,
-  `exa_pulso` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
-  `exa_resp` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
-  `exa_anom` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
-  `tips_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El examen es la evaluación clínica que el médico recolecta recoge para obtener información objetiva y luego analizarla.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_historia_clinicas`
---
-
-CREATE TABLE `ser_historia_clinicas` (
-  `his_id` int(11) NOT NULL,
-  `his_fecreg` date NOT NULL,
-  `his_estado` enum('A','B') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'A' COMMENT 'Valores permitidos: (A) Activo y (B) Baja.',
-  `mas_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La historia clínica se origina por el primer episodio de alguna enfermedad o control de salud de la mascota.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_insumos`
---
-
-CREATE TABLE `ser_insumos` (
-  `ins_id` int(11) NOT NULL,
-  `ins_desc` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
-  `ins_uni` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
-  `ins_stock` int(11) NOT NULL,
-  `ins_fecven` date NOT NULL,
-  `ins_estado` enum('D','F') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'D' COMMENT 'Valores permitidos: (D) Disponible y (F) Faltante.'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Los insumos serán los materiales utilizados para la atención de los pacientes.';
+(10, 5, 20, '2019-06-29 18:03:13', '2019-06-29 18:03:13'),
+(13, 2, 22, '2019-06-30 23:39:07', '2019-06-30 23:39:07'),
+(14, 2, 21, '2019-07-01 00:34:20', '2019-07-01 00:34:20'),
+(15, 5, 23, '2019-07-01 00:52:46', '2019-07-01 00:52:46'),
+(16, 5, 24, '2019-07-01 01:14:54', '2019-07-01 01:14:54'),
+(17, 3, 25, '2019-07-01 19:42:05', '2019-07-01 19:42:05');
 
 -- --------------------------------------------------------
 
@@ -485,7 +512,7 @@ CREATE TABLE `ser_insumos` (
 --
 
 CREATE TABLE `ser_mascotas` (
-  `mas_id` int(11) NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `mas_nombre` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
   `mas_tipo` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
   `mas_raza` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
@@ -496,67 +523,18 @@ CREATE TABLE `ser_mascotas` (
   `mas_color` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   `mas_foto` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mas_estado` enum('A','I') COLLATE utf8_unicode_ci NOT NULL COMMENT 'Valores permitidos: (A) Activo y (I) Inactivo',
-  `clie_id` int(11) NOT NULL
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='En la tabla mascota se registran los datos de la mascota quien será el paciente, el cual obtendrá el servicio de la veterinaria.';
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `ser_medicamentos`
+-- Volcado de datos para la tabla `ser_mascotas`
 --
 
-CREATE TABLE `ser_medicamentos` (
-  `medi_id` int(11) NOT NULL,
-  `medi_nombre` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
-  `medi_desc` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
-  `medi_pres` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
-  `medi_stock` int(11) NOT NULL,
-  `medi_fecven` date NOT NULL,
-  `medi_estado` enum('A','B') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'A' COMMENT 'Valores permitidos: (A) Activo y (B) Baja.',
-  `medi_precio` decimal(5,2) NOT NULL DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El medicamento será la sustancia que sirve para curar o prevenir una enfermedad.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_receta_medicas`
---
-
-CREATE TABLE `ser_receta_medicas` (
-  `rec_id` int(11) NOT NULL,
-  `rec_fecexp` date NOT NULL,
-  `rec_feccad` date NOT NULL,
-  `dia_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='La receta médica será el documento legal por la cual el médico prescribe la medicación a la mascota para su dispensación.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_receta_medica_detalles`
---
-
-CREATE TABLE `ser_receta_medica_detalles` (
-  `detr_can` int(11) NOT NULL,
-  `detr_obs` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `detr_dia` int(11) NOT NULL,
-  `detr_ind` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
-  `rec_id` int(11) NOT NULL,
-  `medi_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El detalle de la receta médica describirá la medicación individualmente si a a mascota se le recetará más de un medicamento.';
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ser_resultados`
---
-
-CREATE TABLE `ser_resultados` (
-  `res_id` int(11) NOT NULL,
-  `res_anexo` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `res_obs1` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `res_obs2` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `exa_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Los resultados serán dados por la evaluación de los exámenes previamente realizados.';
+INSERT INTO `ser_mascotas` (`id`, `mas_nombre`, `mas_tipo`, `mas_raza`, `mas_sexo`, `mas_gs`, `mas_alergia`, `mas_fecnac`, `mas_color`, `mas_foto`, `mas_estado`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'Thiago', 'Canino', 'Golden', 'M', 'R001', NULL, '2018-01-01', 'Blanco', NULL, 'A', 24, '2019-07-09 19:14:57', '2019-07-09 22:44:48'),
+(2, 'Panchito', 'Felino', 'Angora', 'M', 'R001', NULL, '2018-05-02', 'Beige', NULL, 'A', 24, '2019-07-12 09:34:25', '2019-07-12 09:34:25');
 
 -- --------------------------------------------------------
 
@@ -565,23 +543,20 @@ CREATE TABLE `ser_resultados` (
 --
 
 CREATE TABLE `ser_servicios` (
-  `ser_id` int(11) NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `ser_nombre` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `ser_monto` decimal(4,2) NOT NULL DEFAULT 0.00
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El servicio describe la actividad por la cual el cliente separó una cita para su mascota.';
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `ser_tipo_examenes`
+-- Volcado de datos para la tabla `ser_servicios`
 --
 
-CREATE TABLE `ser_tipo_examenes` (
-  `tipe_id` int(11) NOT NULL,
-  `tipe_nombre` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
-  `tipe_estado` enum('R','N') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N' COMMENT 'Valores permitidos: (R) Revisado y (N) No Revisado.',
-  `exa_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El tipo de examen varia por el tipo de requerimiento de la mascota a evaluar para poder dar un resultado.';
+INSERT INTO `ser_servicios` (`id`, `ser_nombre`, `created_at`, `updated_at`) VALUES
+(1, 'Estética', '2019-07-09 19:37:43', '2019-07-09 19:37:43'),
+(3, 'Cirugía', '2019-07-09 21:45:57', '2019-07-09 21:45:57'),
+(4, 'Esterilización', '2019-07-09 21:46:23', '2019-07-09 21:46:23');
 
 -- --------------------------------------------------------
 
@@ -590,24 +565,63 @@ CREATE TABLE `ser_tipo_examenes` (
 --
 
 CREATE TABLE `ser_tipo_servicios` (
-  `tips_id` int(11) NOT NULL,
-  `tips_desc` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(10) NOT NULL,
+  `tips_desc` varchar(250) COLLATE utf8_spanish_ci NOT NULL,
   `tips_costo` decimal(4,2) NOT NULL DEFAULT 0.00,
-  `ser_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El tipo de servicio será dado por las diversas actividades que se realiza en la veterinaria.';
+  `ser_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='El tipo de servicio será dado por las diversas actividades que se realiza en la veterinaria.';
+
+--
+-- Volcado de datos para la tabla `ser_tipo_servicios`
+--
+
+INSERT INTO `ser_tipo_servicios` (`id`, `tips_desc`, `tips_costo`, `ser_id`, `created_at`, `updated_at`) VALUES
+(1, 'Bano', '26.00', 3, '2019-07-09 20:42:52', '2019-07-09 21:47:02'),
+(2, 'Cirugía Abdominal', '99.00', 3, '2019-07-09 21:52:09', '2019-07-09 21:52:09');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ser_tipo_vacunas`
+-- Estructura de tabla para la tabla `specialities`
 --
 
-CREATE TABLE `ser_tipo_vacunas` (
-  `tipv_id` int(11) NOT NULL,
-  `tipv_nombre` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
-  `tipv_desc` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `con_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='El tipo de vacuna podrá variar de acuerdo a lo que requiera la mascota, según la edad y enfermedades que presenta.';
+CREATE TABLE `specialities` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `specialities`
+--
+
+INSERT INTO `specialities` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Cirugía', '2019-07-01 05:00:00', '2019-07-02 19:37:37'),
+(3, 'Estética', '2019-07-02 20:35:36', '2019-07-02 20:35:36');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `speciality_user`
+--
+
+CREATE TABLE `speciality_user` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `speciality_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `speciality_user`
+--
+
+INSERT INTO `speciality_user` (`id`, `user_id`, `speciality_id`, `created_at`, `updated_at`) VALUES
+(1, 25, 1, '2019-07-02 05:00:00', '2019-07-02 05:00:00');
 
 -- --------------------------------------------------------
 
@@ -633,41 +647,82 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `dob`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (17, 'Elvis', '1983-07-01', 'elvis@correo.com', NULL, '$2y$10$BB5JiVaLf4/9O5ANWdElUuIAq1oON/2uPWXlNFj6Tb7nony0bFrTe', NULL, '2019-06-26 01:47:00', '2019-06-26 01:47:00'),
-(20, 'Luis', '1988-04-26', 'luis@correo.com', NULL, '$2y$10$qjiUfUdbg4uPsoJNmgkmHOMvMjQaJryAmUxFB1EhY3PCDX92lw80y', NULL, '2019-06-29 18:03:13', '2019-06-30 03:08:19'),
-(21, 'Prueba', '2000-02-01', 'prueba@correo.com', NULL, '$2y$10$GKG9vrX2rIVUuu1.BJ2tTOhOPFr961G3SLpUZnPPRxDXGrexFWzcG', NULL, '2019-06-30 23:01:41', '2019-06-30 23:01:42');
+(20, 'Luis', '1988-04-26', 'luis@correo.com', NULL, '$2y$10$qjiUfUdbg4uPsoJNmgkmHOMvMjQaJryAmUxFB1EhY3PCDX92lw80y', NULL, '2019-06-29 18:03:13', '2019-07-01 19:36:21'),
+(21, 'Prueba', '2000-02-01', 'prueba@correo.com', NULL, '$2y$10$GKG9vrX2rIVUuu1.BJ2tTOhOPFr961G3SLpUZnPPRxDXGrexFWzcG', NULL, '2019-06-30 23:01:41', '2019-06-30 23:01:42'),
+(22, 'Elizabeth', '1990-03-25', 'asistente@correo.com', NULL, '$2y$10$.dlkhKOG6wY/rPPvN6euWOBYIOscRLhU6tdtPIqxlEJpCBht.p536', NULL, '2019-06-30 23:19:33', '2019-06-30 23:19:33'),
+(23, 'Alejandro', '1982-08-07', 'alejandro@correo.com', NULL, '$2y$10$/z5EztWDzFs1dAdap589IeuGSl6vuELizQSM50qrtbyFuRefVD8Ii', NULL, '2019-07-01 00:52:46', '2019-07-01 00:52:46'),
+(24, 'Carlos', '2001-05-01', 'carlos@correo.com', NULL, '$2y$10$KrUC50bVI4JxejAvOhOoJ.wevJEBdwxbHlgUsP8dWP5jxG6vvcWnC', NULL, '2019-07-01 01:14:54', '2019-07-01 01:14:54'),
+(25, 'Doctor', '1992-12-31', 'doctor@correo.com', NULL, '$2y$10$kN6ZeQnElmB9O8FBExaFJO0iVE1kTbVJmdNTcEQYZ.bQHV2B4G9wu', NULL, '2019-07-01 19:42:04', '2019-07-01 19:42:05');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
+-- Indices de la tabla `appointments`
+--
+ALTER TABLE `appointments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `appointments_user_id_foreign` (`user_id`),
+  ADD KEY `appointments_invoice_id_foreign` (`invoice_id`);
+
+--
+-- Indices de la tabla `clinic_data`
+--
+ALTER TABLE `clinic_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `clinic_datas_user_id_foreign` (`user_id`),
+  ADD KEY `clinic_datas_created_by_foreign` (`created_by`),
+  ADD KEY `clinic_datas_updated_by_foreign` (`updated_by`);
+
+--
+-- Indices de la tabla `clinic_notes`
+--
+ALTER TABLE `clinic_notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `clinic_notes_user_id_foreign` (`user_id`),
+  ADD KEY `clinic_notes_created_by_foreign` (`created_by`);
+
+--
+-- Indices de la tabla `disable_dates`
+--
+ALTER TABLE `disable_dates`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `disable_dates_user_id_foreign` (`user_id`);
+
+--
+-- Indices de la tabla `disable_times`
+--
+ALTER TABLE `disable_times`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `disable_times_user_id_foreign` (`user_id`);
+
+--
+-- Indices de la tabla `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `doctor_schedules_user_id_foreign` (`user_id`);
+
+--
+-- Indices de la tabla `invoices`
+--
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoices_user_id_foreign` (`user_id`);
+
+--
+-- Indices de la tabla `invoice_metas`
+--
+ALTER TABLE `invoice_metas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoice_metas_invoice_id_foreign` (`invoice_id`);
+
+--
 -- Indices de la tabla `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `pag_comprobantes`
---
-ALTER TABLE `pag_comprobantes`
-  ADD PRIMARY KEY (`com_id`),
-  ADD UNIQUE KEY `IU_COMPROBANTE` (`com_id`,`com_fecha`,`com_tipo`,`clie_id`,`tipp_id`,`com_estado`),
-  ADD KEY `CLIE_COMP` (`clie_id`),
-  ADD KEY `TIPPAGO_COMP` (`tipp_id`);
-
---
--- Indices de la tabla `pag_detalle_comprobantes`
---
-ALTER TABLE `pag_detalle_comprobantes`
-  ADD UNIQUE KEY `IU_COMPROBANTEDET` (`com_id`,`ser_id`,`detc_cant`,`detc_preu`),
-  ADD KEY `SER_DETCOMP` (`ser_id`);
-
---
--- Indices de la tabla `pag_tipo_pagos`
---
-ALTER TABLE `pag_tipo_pagos`
-  ADD PRIMARY KEY (`tipp_id`),
-  ADD UNIQUE KEY `IU_TIPO_PAGO` (`tipp_id`,`tipp_desc`);
 
 --
 -- Indices de la tabla `password_resets`
@@ -680,7 +735,6 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `permissions`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `permissions_name_unique` (`name`),
   ADD KEY `permissions_role_id_foreign` (`role_id`);
 
 --
@@ -690,71 +744,6 @@ ALTER TABLE `permission_user`
   ADD PRIMARY KEY (`id`),
   ADD KEY `permission_user_permission_id_foreign` (`permission_id`),
   ADD KEY `permission_user_user_id_foreign` (`user_id`);
-
---
--- Indices de la tabla `res_citas`
---
-ALTER TABLE `res_citas`
-  ADD PRIMARY KEY (`cit_id`),
-  ADD UNIQUE KEY `IU_CITA` (`cit_fecha`,`res_id`),
-  ADD KEY `RES_CITA` (`res_id`),
-  ADD KEY `SER_CITA` (`ser_id`);
-
---
--- Indices de la tabla `res_especialidades`
---
-ALTER TABLE `res_especialidades`
-  ADD PRIMARY KEY (`esp_id`),
-  ADD UNIQUE KEY `IU_ESPECIALIDAD` (`esp_nombre`,`esp_descripcion`);
-
---
--- Indices de la tabla `res_medicos`
---
-ALTER TABLE `res_medicos`
-  ADD PRIMARY KEY (`med_id`),
-  ADD UNIQUE KEY `IU_MEDICO` (`med_id`,`esp_id`),
-  ADD KEY `ESPE_MED` (`esp_id`),
-  ADD KEY `PERS_MED` (`per_id`);
-
---
--- Indices de la tabla `res_personas`
---
-ALTER TABLE `res_personas`
-  ADD PRIMARY KEY (`per_id`),
-  ADD UNIQUE KEY `IU_NOMPERSONA` (`per_apepat`,`per_apemat`,`per_nombres`,`per_nrodoc`),
-  ADD KEY `PERS_TIPODOC` (`tipd_id`);
-
---
--- Indices de la tabla `res_reservas`
---
-ALTER TABLE `res_reservas`
-  ADD PRIMARY KEY (`res_id`),
-  ADD UNIQUE KEY `IU_FECRESERVA` (`res_fecres`,`tur_id`,`mas_id`,`res_motivo`,`res_estado`),
-  ADD KEY `MASC_RES` (`mas_id`),
-  ADD KEY `TUR_RES` (`tur_id`);
-
---
--- Indices de la tabla `res_tipodocumentos`
---
-ALTER TABLE `res_tipodocumentos`
-  ADD PRIMARY KEY (`tipd_id`),
-  ADD UNIQUE KEY `res_tipodocumento_tipd_nombre_unique` (`tipd_nombre`),
-  ADD UNIQUE KEY `res_tipodocumento_tipd_abreviatura_unique` (`tipd_abreviatura`);
-
---
--- Indices de la tabla `res_turnos`
---
-ALTER TABLE `res_turnos`
-  ADD PRIMARY KEY (`tur_id`),
-  ADD UNIQUE KEY `IU_TURNOPROG` (`med_id`,`tur_fectur`,`tur_hini`);
-
---
--- Indices de la tabla `res_usuarios`
---
-ALTER TABLE `res_usuarios`
-  ADD PRIMARY KEY (`usu_id`),
-  ADD UNIQUE KEY `IU_USUARIO` (`usu_user`,`usu_fecreg`,`usu_estado`),
-  ADD KEY `USU_MED` (`med_id`);
 
 --
 -- Indices de la tabla `roles`
@@ -773,126 +762,40 @@ ALTER TABLE `role_user`
   ADD KEY `role_user_user_id_foreign` (`user_id`);
 
 --
--- Indices de la tabla `ser_control_vacunas`
---
-ALTER TABLE `ser_control_vacunas`
-  ADD PRIMARY KEY (`con_id`),
-  ADD UNIQUE KEY `IU_CONTROLVAC` (`con_fecap`,`con_fecve`,`con_obs`),
-  ADD KEY `SER_CONTVAC` (`tips_id`);
-
---
--- Indices de la tabla `ser_detalle_historias`
---
-ALTER TABLE `ser_detalle_historias`
-  ADD PRIMARY KEY (`deth_id`),
-  ADD UNIQUE KEY `IU_HISTORIADET` (`his_id`,`deth_fechis`,`deth_obs`,`exa_id`,`con_id`),
-  ADD KEY `CONTVAC_DETHIST` (`con_id`),
-  ADD KEY `SER_DETHIST` (`ser_id`),
-  ADD KEY `EXA_DETHIST` (`exa_id`);
-
---
--- Indices de la tabla `ser_detalle_insumos`
---
-ALTER TABLE `ser_detalle_insumos`
-  ADD PRIMARY KEY (`deti_id`),
-  ADD KEY `SER_DETINS` (`ser_id`),
-  ADD KEY `INS_DETINS` (`ins_id`),
-  ADD KEY `MEDI_DETINS` (`medi_id`);
-
---
--- Indices de la tabla `ser_diagnosticos`
---
-ALTER TABLE `ser_diagnosticos`
-  ADD PRIMARY KEY (`dia_id`),
-  ADD UNIQUE KEY `IU_DIAGNOSTICO` (`dia_trat`,`dia_obs`),
-  ADD KEY `RESU_DIAG` (`res_id`);
-
---
--- Indices de la tabla `ser_examenes`
---
-ALTER TABLE `ser_examenes`
-  ADD PRIMARY KEY (`exa_id`),
-  ADD UNIQUE KEY `IU_EXAMEN` (`tips_id`,`exa_temp`,`exa_peso`,`exa_pulso`,`exa_resp`,`exa_anom`);
-
---
--- Indices de la tabla `ser_historia_clinicas`
---
-ALTER TABLE `ser_historia_clinicas`
-  ADD PRIMARY KEY (`his_id`),
-  ADD UNIQUE KEY `IU_HISTORIACLI` (`mas_id`,`his_fecreg`,`his_estado`);
-
---
--- Indices de la tabla `ser_insumos`
---
-ALTER TABLE `ser_insumos`
-  ADD PRIMARY KEY (`ins_id`),
-  ADD UNIQUE KEY `IU_INSUMO` (`ins_desc`,`ins_uni`,`ins_stock`,`ins_estado`,`ins_fecven`);
-
---
 -- Indices de la tabla `ser_mascotas`
 --
 ALTER TABLE `ser_mascotas`
-  ADD PRIMARY KEY (`mas_id`),
-  ADD UNIQUE KEY `IU_MASCOTA` (`mas_nombre`,`mas_tipo`,`mas_raza`,`mas_sexo`,`mas_alergia`,`mas_fecnac`),
-  ADD KEY `CLIE_MASC` (`clie_id`);
-
---
--- Indices de la tabla `ser_medicamentos`
---
-ALTER TABLE `ser_medicamentos`
-  ADD PRIMARY KEY (`medi_id`),
-  ADD UNIQUE KEY `IU_MEDICAMENTO` (`medi_nombre`,`medi_precio`,`medi_desc`,`medi_stock`,`medi_pres`,`medi_fecven`);
-
---
--- Indices de la tabla `ser_receta_medicas`
---
-ALTER TABLE `ser_receta_medicas`
-  ADD PRIMARY KEY (`rec_id`),
-  ADD UNIQUE KEY `IU_RECETA` (`rec_fecexp`,`rec_feccad`),
-  ADD KEY `DIAG_REC` (`dia_id`);
-
---
--- Indices de la tabla `ser_receta_medica_detalles`
---
-ALTER TABLE `ser_receta_medica_detalles`
-  ADD UNIQUE KEY `IU_RECETADETALLE` (`rec_id`,`medi_id`,`detr_can`,`detr_obs`,`detr_dia`,`detr_ind`),
-  ADD KEY `MEDI_DETMED` (`medi_id`);
-
---
--- Indices de la tabla `ser_resultados`
---
-ALTER TABLE `ser_resultados`
-  ADD PRIMARY KEY (`res_id`),
-  ADD UNIQUE KEY `IU_RESULTADO` (`exa_id`,`res_anexo`,`res_obs1`,`res_obs2`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `USER_MASC` (`user_id`);
 
 --
 -- Indices de la tabla `ser_servicios`
 --
 ALTER TABLE `ser_servicios`
-  ADD PRIMARY KEY (`ser_id`),
-  ADD UNIQUE KEY `IU_SERVICIO` (`ser_monto`,`ser_nombre`);
-
---
--- Indices de la tabla `ser_tipo_examenes`
---
-ALTER TABLE `ser_tipo_examenes`
-  ADD PRIMARY KEY (`tipe_id`),
-  ADD UNIQUE KEY `IU_TIPOEXAMEN` (`tipe_nombre`,`tipe_estado`),
-  ADD KEY `EXA_TIPEXA` (`exa_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `IU_SERVICIO` (`ser_nombre`) USING BTREE;
 
 --
 -- Indices de la tabla `ser_tipo_servicios`
 --
 ALTER TABLE `ser_tipo_servicios`
-  ADD PRIMARY KEY (`tips_id`),
-  ADD UNIQUE KEY `IU_TIPOSERVICIO` (`ser_id`,`tips_desc`,`tips_costo`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `IU_TIPOSERVICIO` (`tips_desc`) USING BTREE,
+  ADD KEY `SERV_TIPSERV` (`ser_id`);
 
 --
--- Indices de la tabla `ser_tipo_vacunas`
+-- Indices de la tabla `specialities`
 --
-ALTER TABLE `ser_tipo_vacunas`
-  ADD PRIMARY KEY (`tipv_id`),
-  ADD UNIQUE KEY `IU_TIPOVAC` (`con_id`,`tipv_nombre`);
+ALTER TABLE `specialities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `speciality_user`
+--
+ALTER TABLE `speciality_user`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `speciality_user_user_id_foreign` (`user_id`),
+  ADD KEY `speciality_user_speciality_id_foreign` (`speciality_id`);
 
 --
 -- Indices de la tabla `users`
@@ -906,82 +809,70 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `appointments`
+--
+ALTER TABLE `appointments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de la tabla `clinic_data`
+--
+ALTER TABLE `clinic_data`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `clinic_notes`
+--
+ALTER TABLE `clinic_notes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `disable_dates`
+--
+ALTER TABLE `disable_dates`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `disable_times`
+--
+ALTER TABLE `disable_times`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `invoices`
+--
+ALTER TABLE `invoices`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT de la tabla `invoice_metas`
+--
+ALTER TABLE `invoice_metas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `pag_comprobantes`
---
-ALTER TABLE `pag_comprobantes`
-  MODIFY `com_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pag_tipo_pagos`
---
-ALTER TABLE `pag_tipo_pagos`
-  MODIFY `tipp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `permission_user`
 --
 ALTER TABLE `permission_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
-
---
--- AUTO_INCREMENT de la tabla `res_citas`
---
-ALTER TABLE `res_citas`
-  MODIFY `cit_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `res_especialidades`
---
-ALTER TABLE `res_especialidades`
-  MODIFY `esp_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `res_medicos`
---
-ALTER TABLE `res_medicos`
-  MODIFY `med_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `res_personas`
---
-ALTER TABLE `res_personas`
-  MODIFY `per_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `res_reservas`
---
-ALTER TABLE `res_reservas`
-  MODIFY `res_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `res_tipodocumentos`
---
-ALTER TABLE `res_tipodocumentos`
-  MODIFY `tipd_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla `res_turnos`
---
-ALTER TABLE `res_turnos`
-  MODIFY `tur_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `res_usuarios`
---
-ALTER TABLE `res_usuarios`
-  MODIFY `usu_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -993,266 +884,135 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT de la tabla `ser_control_vacunas`
---
-ALTER TABLE `ser_control_vacunas`
-  MODIFY `con_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_detalle_historias`
---
-ALTER TABLE `ser_detalle_historias`
-  MODIFY `deth_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_detalle_insumos`
---
-ALTER TABLE `ser_detalle_insumos`
-  MODIFY `deti_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_diagnosticos`
---
-ALTER TABLE `ser_diagnosticos`
-  MODIFY `dia_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_examenes`
---
-ALTER TABLE `ser_examenes`
-  MODIFY `exa_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_historia_clinicas`
---
-ALTER TABLE `ser_historia_clinicas`
-  MODIFY `his_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_insumos`
---
-ALTER TABLE `ser_insumos`
-  MODIFY `ins_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `ser_mascotas`
 --
 ALTER TABLE `ser_mascotas`
-  MODIFY `mas_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_medicamentos`
---
-ALTER TABLE `ser_medicamentos`
-  MODIFY `medi_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_receta_medicas`
---
-ALTER TABLE `ser_receta_medicas`
-  MODIFY `rec_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_resultados`
---
-ALTER TABLE `ser_resultados`
-  MODIFY `res_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ser_servicios`
 --
 ALTER TABLE `ser_servicios`
-  MODIFY `ser_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `ser_tipo_examenes`
---
-ALTER TABLE `ser_tipo_examenes`
-  MODIFY `tipe_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `ser_tipo_servicios`
 --
 ALTER TABLE `ser_tipo_servicios`
-  MODIFY `tips_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `ser_tipo_vacunas`
+-- AUTO_INCREMENT de la tabla `specialities`
 --
-ALTER TABLE `ser_tipo_vacunas`
-  MODIFY `tipv_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `specialities`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `speciality_user`
+--
+ALTER TABLE `speciality_user`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `pag_comprobantes`
+-- Filtros para la tabla `appointments`
 --
-ALTER TABLE `pag_comprobantes`
-  ADD CONSTRAINT `CLIE_COMP` FOREIGN KEY (`clie_id`) REFERENCES `res_clientes` (`clie_id`),
-  ADD CONSTRAINT `TIPPAGO_COMP` FOREIGN KEY (`tipp_id`) REFERENCES `pag_tipo_pagos` (`tipp_id`);
+ALTER TABLE `appointments`
+  ADD CONSTRAINT `appointments_invoice_id_foreign` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `appointments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `pag_detalle_comprobantes`
+-- Filtros para la tabla `clinic_data`
 --
-ALTER TABLE `pag_detalle_comprobantes`
-  ADD CONSTRAINT `COMP_DETCOMP` FOREIGN KEY (`com_id`) REFERENCES `pag_comprobantes` (`com_id`),
-  ADD CONSTRAINT `SER_DETCOMP` FOREIGN KEY (`ser_id`) REFERENCES `ser_servicios` (`ser_id`);
+ALTER TABLE `clinic_data`
+  ADD CONSTRAINT `clinic_datas_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `clinic_datas_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `clinic_datas_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `permissions`
+-- Filtros para la tabla `clinic_notes`
 --
-ALTER TABLE `permissions`
-  ADD CONSTRAINT `permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `clinic_notes`
+  ADD CONSTRAINT `clinic_notes_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `clinic_notes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `disable_dates`
+--
+ALTER TABLE `disable_dates`
+  ADD CONSTRAINT `disable_dates_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `disable_times`
+--
+ALTER TABLE `disable_times`
+  ADD CONSTRAINT `disable_times_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  ADD CONSTRAINT `doctor_schedules_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `invoices`
+--
+ALTER TABLE `invoices`
+  ADD CONSTRAINT `invoices_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `invoice_metas`
+--
+ALTER TABLE `invoice_metas`
+  ADD CONSTRAINT `invoice_metas_invoice_id_foreign` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `permission_user`
 --
 ALTER TABLE `permission_user`
-  ADD CONSTRAINT `permission_user_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `permission_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `res_citas`
---
-ALTER TABLE `res_citas`
-  ADD CONSTRAINT `RES_CITA` FOREIGN KEY (`res_id`) REFERENCES `res_reservas` (`res_id`),
-  ADD CONSTRAINT `SER_CITA` FOREIGN KEY (`ser_id`) REFERENCES `ser_servicios` (`ser_id`);
-
---
--- Filtros para la tabla `res_medicos`
---
-ALTER TABLE `res_medicos`
-  ADD CONSTRAINT `ESPE_MED` FOREIGN KEY (`esp_id`) REFERENCES `res_especialidades` (`esp_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `PERS_MED` FOREIGN KEY (`per_id`) REFERENCES `res_personas` (`per_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `res_personas`
---
-ALTER TABLE `res_personas`
-  ADD CONSTRAINT `PERS_TIPODOC` FOREIGN KEY (`tipd_id`) REFERENCES `res_tipodocumentos` (`tipd_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `res_reservas`
---
-ALTER TABLE `res_reservas`
-  ADD CONSTRAINT `MASC_RES` FOREIGN KEY (`mas_id`) REFERENCES `ser_mascotas` (`mas_id`),
-  ADD CONSTRAINT `TUR_RES` FOREIGN KEY (`tur_id`) REFERENCES `res_turnos` (`tur_id`);
-
---
--- Filtros para la tabla `res_turnos`
---
-ALTER TABLE `res_turnos`
-  ADD CONSTRAINT `MED_TURNO` FOREIGN KEY (`med_id`) REFERENCES `res_medicos` (`med_id`);
-
---
--- Filtros para la tabla `res_usuarios`
---
-ALTER TABLE `res_usuarios`
-  ADD CONSTRAINT `USU_MED` FOREIGN KEY (`med_id`) REFERENCES `res_medicos` (`med_id`);
+  ADD CONSTRAINT `permissions_permission_user` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_permission_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `role_user`
 --
 ALTER TABLE `role_user`
-  ADD CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `ser_control_vacunas`
---
-ALTER TABLE `ser_control_vacunas`
-  ADD CONSTRAINT `SER_CONTVAC` FOREIGN KEY (`tips_id`) REFERENCES `ser_tipo_servicios` (`tips_id`);
-
---
--- Filtros para la tabla `ser_detalle_historias`
---
-ALTER TABLE `ser_detalle_historias`
-  ADD CONSTRAINT `CONTVAC_DETHIST` FOREIGN KEY (`con_id`) REFERENCES `ser_control_vacunas` (`con_id`),
-  ADD CONSTRAINT `EXA_DETHIST` FOREIGN KEY (`exa_id`) REFERENCES `ser_examenes` (`exa_id`),
-  ADD CONSTRAINT `HISTCLI_DETHIST` FOREIGN KEY (`his_id`) REFERENCES `ser_historia_clinicas` (`his_id`),
-  ADD CONSTRAINT `SER_DETHIST` FOREIGN KEY (`ser_id`) REFERENCES `ser_servicios` (`ser_id`);
-
---
--- Filtros para la tabla `ser_detalle_insumos`
---
-ALTER TABLE `ser_detalle_insumos`
-  ADD CONSTRAINT `INS_DETINS` FOREIGN KEY (`ins_id`) REFERENCES `ser_insumos` (`ins_id`),
-  ADD CONSTRAINT `MEDI_DETINS` FOREIGN KEY (`medi_id`) REFERENCES `ser_medicamentos` (`medi_id`),
-  ADD CONSTRAINT `SER_DETINS` FOREIGN KEY (`ser_id`) REFERENCES `ser_servicios` (`ser_id`);
-
---
--- Filtros para la tabla `ser_diagnosticos`
---
-ALTER TABLE `ser_diagnosticos`
-  ADD CONSTRAINT `RESU_DIAG` FOREIGN KEY (`res_id`) REFERENCES `ser_resultados` (`res_id`);
-
---
--- Filtros para la tabla `ser_examenes`
---
-ALTER TABLE `ser_examenes`
-  ADD CONSTRAINT `TIPSER_EXA` FOREIGN KEY (`tips_id`) REFERENCES `ser_tipo_servicios` (`tips_id`);
-
---
--- Filtros para la tabla `ser_historia_clinicas`
---
-ALTER TABLE `ser_historia_clinicas`
-  ADD CONSTRAINT `MASC_HISTCLI` FOREIGN KEY (`mas_id`) REFERENCES `ser_mascotas` (`mas_id`);
+  ADD CONSTRAINT `roles_role_user` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_role_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ser_mascotas`
 --
 ALTER TABLE `ser_mascotas`
-  ADD CONSTRAINT `CLIE_MASC` FOREIGN KEY (`clie_id`) REFERENCES `res_clientes` (`clie_id`);
-
---
--- Filtros para la tabla `ser_receta_medicas`
---
-ALTER TABLE `ser_receta_medicas`
-  ADD CONSTRAINT `DIAG_REC` FOREIGN KEY (`dia_id`) REFERENCES `ser_diagnosticos` (`dia_id`);
-
---
--- Filtros para la tabla `ser_receta_medica_detalles`
---
-ALTER TABLE `ser_receta_medica_detalles`
-  ADD CONSTRAINT `MEDI_DETMED` FOREIGN KEY (`medi_id`) REFERENCES `ser_medicamentos` (`medi_id`),
-  ADD CONSTRAINT `REC_DETMEDI` FOREIGN KEY (`rec_id`) REFERENCES `ser_receta_medicas` (`rec_id`);
-
---
--- Filtros para la tabla `ser_resultados`
---
-ALTER TABLE `ser_resultados`
-  ADD CONSTRAINT `EXA_RESU` FOREIGN KEY (`exa_id`) REFERENCES `ser_examenes` (`exa_id`);
-
---
--- Filtros para la tabla `ser_tipo_examenes`
---
-ALTER TABLE `ser_tipo_examenes`
-  ADD CONSTRAINT `EXA_TIPEXA` FOREIGN KEY (`exa_id`) REFERENCES `ser_examenes` (`exa_id`);
+  ADD CONSTRAINT `USER_MASC` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ser_tipo_servicios`
 --
 ALTER TABLE `ser_tipo_servicios`
-  ADD CONSTRAINT `SER_TIPSER` FOREIGN KEY (`ser_id`) REFERENCES `ser_servicios` (`ser_id`);
+  ADD CONSTRAINT `SERV_TIPSERV` FOREIGN KEY (`ser_id`) REFERENCES `ser_servicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `ser_tipo_vacunas`
+-- Filtros para la tabla `speciality_user`
 --
-ALTER TABLE `ser_tipo_vacunas`
-  ADD CONSTRAINT `CONTVAC_TIPVAC` FOREIGN KEY (`con_id`) REFERENCES `ser_control_vacunas` (`con_id`);
+ALTER TABLE `speciality_user`
+  ADD CONSTRAINT `speciality_speciality` FOREIGN KEY (`speciality_id`) REFERENCES `specialities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `speciality_speciality_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
