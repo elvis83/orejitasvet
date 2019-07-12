@@ -13,10 +13,7 @@
             </h1>
           </li>
         </ul>
-        <div class="header-search-wrapper hide-on-med-and-down">
-          <i class="material-icons">search</i>
-          <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Buscar..." />
-        </div>
+        
         <ul class="right hide-on-med-and-down">
           
           <li>

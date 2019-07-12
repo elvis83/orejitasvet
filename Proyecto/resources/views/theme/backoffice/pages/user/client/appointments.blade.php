@@ -24,30 +24,11 @@
 				<div class="col s12 m8">
 					<div class="card">
 					<div class="card-content">
-						<table class="striped responsive-table">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Día</th>
-									<th>Hora</th>
-									<th>Estado</th>
-									<th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>754</th>
-									<th>25/10/2019</th>
-									<th>15:00</th>
-									<th>En progreso</th>
-									<th>
-										<a href="{{ route('backoffice.user.edit', $user) }}" title="Editar">
-											<i class="material-icons">border_color</i>
-										</a>
-									</th>
-								</tr>						
-							</tbody>
-						</table>
+						
+						@include('theme.includes.user.client.appointments',[
+							'update' => true
+						])
+
 					</div>
 					</div>
 				</div>

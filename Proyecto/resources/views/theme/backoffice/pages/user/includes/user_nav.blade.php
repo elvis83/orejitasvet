@@ -1,15 +1,21 @@
 <div class="collection">
 	{{-- <a href="#!" class="collection-item active">Alvin</a> --}}
 	<a href="{{ route('backoffice.user.show', $user) }}" class="collection-item active">{{ $user->name }}</a>
+
 	@if(Auth::user()->has_any_role([
 			config('app.admin_role'),
 			config('app.assistant_role'),
 			config('app.doctor_role')
 		]))
 		@if($user->has_role(config('app.client_role')))
+			<a href="{{ route('backoffice.clinic_data.index', $user) }}"  class="collection-item">Historia Clínica</a>
 			<a href="{{ route('backoffice.client.schedule', $user) }}" class="collection-item">Agendar cita</a>
 			<a href="{{ route('backoffice.client.appointments', $user) }}" class="collection-item">Citas</a>
-			<a href="{{ route('backoffice.client.invoices', $user) }}" class="collection-item">Facturas</a>
+			<a href="{{ route('backoffice.client.invoice', $user) }}" class="collection-item">Facturas</a>
+		@endif
+		@if($user->has_role(config('app.doctor_role')))
+			<a href="{{ route('backoffice.doctor.appointments.show', $user) }}" class="collection-item">Citas</a>
+			<a href="{{ route('backoffice.doctor.schedule.assign', $user) }}" class="collection-item">Gestión de Horarios</a>
 		@endif
 	@endif
 	@if(Auth::user()->has_role(config('app.admin_role')))

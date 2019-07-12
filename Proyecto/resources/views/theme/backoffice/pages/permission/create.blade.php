@@ -27,7 +27,7 @@
 
 						<div class="row">
 						<div class="input-field col s12">
-							<input id="name" type="text" name="name">
+							<input id="name" type="text" name="name" autofocus="">
 							<label for="name">Nombre del Permiso</label>
 							@if ($errors->has('name'))
                                 <span class="invalid-feedback" role="alert">

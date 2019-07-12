@@ -3,6 +3,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="msapplication-tap-highlight" content="no">
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/frontoffice/css/custom.css') }}">
 <link href="{{ asset('assets/backoffice/css/materialize.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/backoffice/css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/backoffice/css/custom.css') }}" rel="stylesheet">
